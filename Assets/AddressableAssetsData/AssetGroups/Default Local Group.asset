@@ -1,0 +1,187 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_Data:
+    m_SerializedData: []
+  m_GUID: f5eb264b18d3f40dd97dd03725b49473
+  m_SerializeEntries:
+  - m_GUID: ebfba08a213d34c46ba2b1947aeaea83
+    m_Address: Enemy1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 195068, guid: ebfba08a213d34c46ba2b1947aeaea83, type: 3}
+    m_TargetAsset: {fileID: 195068, guid: ebfba08a213d34c46ba2b1947aeaea83, type: 3}
+  - m_GUID: 089a2f2c322ea40f9afdfaba0550c6d3
+    m_Address: Enemy2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 161064, guid: 089a2f2c322ea40f9afdfaba0550c6d3, type: 3}
+    m_TargetAsset: {fileID: 161064, guid: 089a2f2c322ea40f9afdfaba0550c6d3, type: 3}
+  - m_GUID: cb0f3020bafec423aa31d0e491c4b811
+    m_Address: Exit
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 110520, guid: cb0f3020bafec423aa31d0e491c4b811, type: 3}
+    m_TargetAsset: {fileID: 110520, guid: cb0f3020bafec423aa31d0e491c4b811, type: 3}
+  - m_GUID: 038998774947c4a8fa170d5b4492a7dd
+    m_Address: Floor1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 106160, guid: 038998774947c4a8fa170d5b4492a7dd, type: 3}
+    m_TargetAsset: {fileID: 106160, guid: 038998774947c4a8fa170d5b4492a7dd, type: 3}
+  - m_GUID: 41775b29042354678bcd58bb1a75871e
+    m_Address: Floor2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 137908, guid: 41775b29042354678bcd58bb1a75871e, type: 3}
+    m_TargetAsset: {fileID: 137908, guid: 41775b29042354678bcd58bb1a75871e, type: 3}
+  - m_GUID: 74398dca0c1f64f34aab8ba7bdb6c527
+    m_Address: Floor3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 125636, guid: 74398dca0c1f64f34aab8ba7bdb6c527, type: 3}
+    m_TargetAsset: {fileID: 125636, guid: 74398dca0c1f64f34aab8ba7bdb6c527, type: 3}
+  - m_GUID: ed4c829589732490894350b134530050
+    m_Address: Floor4
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 177044, guid: ed4c829589732490894350b134530050, type: 3}
+    m_TargetAsset: {fileID: 177044, guid: ed4c829589732490894350b134530050, type: 3}
+  - m_GUID: 04993e7a7b0514f0c8857ff106529ce1
+    m_Address: Floor5
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 109612, guid: 04993e7a7b0514f0c8857ff106529ce1, type: 3}
+    m_TargetAsset: {fileID: 109612, guid: 04993e7a7b0514f0c8857ff106529ce1, type: 3}
+  - m_GUID: 4cdf8ac85eff446d0a8fefbdc8c6569f
+    m_Address: Floor6
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 127736, guid: 4cdf8ac85eff446d0a8fefbdc8c6569f, type: 3}
+    m_TargetAsset: {fileID: 127736, guid: 4cdf8ac85eff446d0a8fefbdc8c6569f, type: 3}
+  - m_GUID: 5535fd6cd705e4a79a1d5a4f114de5dc
+    m_Address: Floor7
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 110520, guid: 5535fd6cd705e4a79a1d5a4f114de5dc, type: 3}
+    m_TargetAsset: {fileID: 110520, guid: 5535fd6cd705e4a79a1d5a4f114de5dc, type: 3}
+  - m_GUID: c18e9692903814865aa9a855aaa66df5
+    m_Address: Floor8
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 110520, guid: c18e9692903814865aa9a855aaa66df5, type: 3}
+    m_TargetAsset: {fileID: 110520, guid: c18e9692903814865aa9a855aaa66df5, type: 3}
+  - m_GUID: ad25a4e752915438e9f55a35bedacf1f
+    m_Address: Food
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 110520, guid: ad25a4e752915438e9f55a35bedacf1f, type: 3}
+    m_TargetAsset: {fileID: 110520, guid: ad25a4e752915438e9f55a35bedacf1f, type: 3}
+  - m_GUID: 1ca8c6e960c494bbd937610290f80d1b
+    m_Address: GameManager
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 133658, guid: 1ca8c6e960c494bbd937610290f80d1b, type: 3}
+    m_TargetAsset: {fileID: 133658, guid: 1ca8c6e960c494bbd937610290f80d1b, type: 3}
+  - m_GUID: 7094f72151ec74f569c4e03f1ec0f8e7
+    m_Address: OuterWall1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 110520, guid: 7094f72151ec74f569c4e03f1ec0f8e7, type: 3}
+    m_TargetAsset: {fileID: 110520, guid: 7094f72151ec74f569c4e03f1ec0f8e7, type: 3}
+  - m_GUID: b0ace21a29149403094422fb3bd96aa9
+    m_Address: OuterWall2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 110520, guid: b0ace21a29149403094422fb3bd96aa9, type: 3}
+    m_TargetAsset: {fileID: 110520, guid: b0ace21a29149403094422fb3bd96aa9, type: 3}
+  - m_GUID: e85c94355cc4641da919bd5d0ac956d4
+    m_Address: OuterWall3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 110520, guid: e85c94355cc4641da919bd5d0ac956d4, type: 3}
+    m_TargetAsset: {fileID: 110520, guid: e85c94355cc4641da919bd5d0ac956d4, type: 3}
+  - m_GUID: 28b53fc28d3a140c392f0e2d919f9de1
+    m_Address: Player
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 146652, guid: 28b53fc28d3a140c392f0e2d919f9de1, type: 3}
+    m_TargetAsset: {fileID: 146652, guid: 28b53fc28d3a140c392f0e2d919f9de1, type: 3}
+  - m_GUID: 46e8bf4bf645a47e3ae1b60c7e18418c
+    m_Address: Soda
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 110520, guid: 46e8bf4bf645a47e3ae1b60c7e18418c, type: 3}
+    m_TargetAsset: {fileID: 110520, guid: 46e8bf4bf645a47e3ae1b60c7e18418c, type: 3}
+  - m_GUID: 76cd81135280f4ad6a4fa80f6422aea2
+    m_Address: SoundManager
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 109316, guid: 76cd81135280f4ad6a4fa80f6422aea2, type: 3}
+    m_TargetAsset: {fileID: 109316, guid: 76cd81135280f4ad6a4fa80f6422aea2, type: 3}
+  - m_GUID: 2570048905bd94d6f8a99d13b80daf90
+    m_Address: Wall1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 110520, guid: 2570048905bd94d6f8a99d13b80daf90, type: 3}
+    m_TargetAsset: {fileID: 110520, guid: 2570048905bd94d6f8a99d13b80daf90, type: 3}
+  - m_GUID: b86334000bc0f47ba8dd33ea88cfcdb1
+    m_Address: Wall2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 110520, guid: b86334000bc0f47ba8dd33ea88cfcdb1, type: 3}
+    m_TargetAsset: {fileID: 110520, guid: b86334000bc0f47ba8dd33ea88cfcdb1, type: 3}
+  - m_GUID: 01ca47a83ebe24ca5a2f6b1d6dcd7481
+    m_Address: Wall3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 110520, guid: 01ca47a83ebe24ca5a2f6b1d6dcd7481, type: 3}
+    m_TargetAsset: {fileID: 110520, guid: 01ca47a83ebe24ca5a2f6b1d6dcd7481, type: 3}
+  - m_GUID: 022eda2f1f0cb45e28ff6840b68928bc
+    m_Address: Wall4
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 110520, guid: 022eda2f1f0cb45e28ff6840b68928bc, type: 3}
+    m_TargetAsset: {fileID: 110520, guid: 022eda2f1f0cb45e28ff6840b68928bc, type: 3}
+  - m_GUID: e1816487b15cd4c5fbd9587521e068ca
+    m_Address: Wall5
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 110520, guid: e1816487b15cd4c5fbd9587521e068ca, type: 3}
+    m_TargetAsset: {fileID: 110520, guid: e1816487b15cd4c5fbd9587521e068ca, type: 3}
+  - m_GUID: 5ddc2d7828b2d462286f09274199ad9a
+    m_Address: Wall6
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 110520, guid: 5ddc2d7828b2d462286f09274199ad9a, type: 3}
+    m_TargetAsset: {fileID: 110520, guid: 5ddc2d7828b2d462286f09274199ad9a, type: 3}
+  - m_GUID: 64139c47b57e34c5fa97fd79f8d25244
+    m_Address: Wall7
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 110520, guid: 64139c47b57e34c5fa97fd79f8d25244, type: 3}
+    m_TargetAsset: {fileID: 110520, guid: 64139c47b57e34c5fa97fd79f8d25244, type: 3}
+  - m_GUID: 741804431f4d341cdae1f15b3896aeff
+    m_Address: Wall8
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 110520, guid: 741804431f4d341cdae1f15b3896aeff, type: 3}
+    m_TargetAsset: {fileID: 110520, guid: 741804431f4d341cdae1f15b3896aeff, type: 3}
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: f34e7885cc705490c817b830c9dad730, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: c66e98dd6196d414685350e68e5534a5, type: 2}
+    - {fileID: 11400000, guid: 112faa6041fb948c9a0325c7203d59b5, type: 2}
