@@ -1,4 +1,7 @@
 using DeadSurvive.Common;
+using DeadSurvive.HeroButton;
+using DeadSurvive.Moving;
+using DeadSurvive.Moving.Data;
 using Leopotam.EcsLite;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -14,13 +17,30 @@ namespace DeadSurvive.TapPosition
         public void OnPointerClick(PointerEventData eventData)
         {
             var ecsWorld = EcsSystems.GetWorld();
-            var pressPositionEntity = ecsWorld.NewEntity();
-            var pressPositionPool = ecsWorld.GetPool<PressPositionComponent>(); 
             
-            ref var pressComponent = ref pressPositionPool.Add(pressPositionEntity);
+            var pressPositionPool = ecsWorld.GetPool<TargetPositionComponent>(); 
+            var buttonsPool = ecsWorld.GetPool<ButtonComponent>();
+            
+            var filterMove = ecsWorld.Filter<ButtonComponent>().End();
+            
+            foreach (var entityMove in filterMove)
+            {
+                ref var buttonComponent = ref buttonsPool.Get(entityMove);
 
-            var pointerPosition = _camera.ScreenToWorldPoint(Input.mousePosition);
-            pressComponent.SetPosition(pointerPosition);
+                if (!buttonComponent.IsSelected)
+                {
+                    continue;
+                }
+                
+                if (pressPositionPool.Has(entityMove))
+                {
+                    pressPositionPool.Del(entityMove);
+                }
+
+                ref var pressComponent = ref pressPositionPool.Add(entityMove);
+                var vectorPosition = new VectorPositionHolder(_camera.ScreenToWorldPoint(Input.mousePosition));
+                pressComponent.Configure(vectorPosition);
+            }
         }
     }
 }

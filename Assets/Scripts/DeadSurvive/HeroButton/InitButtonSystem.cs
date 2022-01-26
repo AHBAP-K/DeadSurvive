@@ -1,5 +1,5 @@
 using DeadSurvive.Common.Data;
-using DeadSurvive.Moving;
+using DeadSurvive.Unit;
 using Leopotam.EcsLite;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,21 +16,21 @@ namespace DeadSurvive.HeroButton
             
             var world = systems.GetWorld();
             var data = systems.GetShared<GameData>();
-            var moveComponentFilter = world.Filter<MoveComponent>().End();
+            var unitComponentFilter = world.Filter<UnitComponent>().End();
             var buttonPoll = world.GetPool<ButtonComponent>();
 
-            foreach (var moveEntity in moveComponentFilter)
+            foreach (var entity in unitComponentFilter)
             {
                 var button = Object.Instantiate(data.ButtonPrefab, data.ButtonSpawnPoint);
                 var buttonUnityBehaviour = button.GetComponent<Button>();
                 
-                buttonPoll.Add(moveEntity);
+                buttonPoll.Add(entity);
                 
                 buttonUnityBehaviour.onClick.AddListener(() =>
                 {
                     DisableAll();
                     
-                    ref var buttonComponent = ref buttonPoll.Get(moveEntity);
+                    ref var buttonComponent = ref buttonPoll.Get(entity);
                     buttonComponent.IsSelected = true;
                 });
             }

@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using DeadSurvive.Attack;
 using DeadSurvive.Common.Data;
 using DeadSurvive.HeroButton;
 using DeadSurvive.Heroes;
 using DeadSurvive.Moving;
+using DeadSurvive.ZoneDetect;
 using Leopotam.EcsLite;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using Voody.UniLeo.Lite;
 
 namespace DeadSurvive.Common
 {
@@ -38,9 +39,11 @@ namespace DeadSurvive.Common
 
             _ecsStartSystems.Init();
 
-            _ecsUpdateSystems = new EcsSystems(_ecsWorld);
-            _ecsUpdateSystems.ConvertScene();
-            _ecsUpdateSystems.Add(new MoveSystem());
+            _ecsUpdateSystems = new EcsSystems(_ecsWorld, _gameData);
+            
+            _ecsUpdateSystems.Add(new MovementSystem());
+            _ecsUpdateSystems.Add(new ZoneDetectSystem());
+            _ecsUpdateSystems.Add(new AttackSystem());
             
             _ecsUpdateSystems.Init();
         }

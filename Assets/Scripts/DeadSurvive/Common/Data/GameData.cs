@@ -1,5 +1,6 @@
 using System;
-using DeadSurvive.Moving.Data;
+using System.Collections.Generic;
+using DeadSurvive.Unit.Data;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -8,24 +9,19 @@ namespace DeadSurvive.Common.Data
     [Serializable]
     public class GameData
     {
-        public Transform HeroesSpawnPoint => _heroesSpawnPoint;
+        public List<Transform> HeroesSpawnPoint => _heroesSpawnPoint;
 
-        public GameObject[] HeroesPrefabs => _heroesPrefabs;
-
-        public MoveData MoveData => _moveData;
-
+        public UnitData[] UnitData => _unitData;
+        
         public GameObject ButtonPrefab => _buttonPrefab;
 
         public Transform ButtonSpawnPoint => _buttonSpawnPoint;
 
-        [SerializeField, FoldoutGroup("Player")] 
-        private Transform _heroesSpawnPoint;
+        [SerializeField, FoldoutGroup("Heroes")] 
+        private List<Transform> _heroesSpawnPoint;
 
-        [SerializeField, FoldoutGroup("Player")] 
-        private GameObject[] _heroesPrefabs;
-
-        [SerializeField, FoldoutGroup("Player")] 
-        private MoveData _moveData;
+        [SerializeField, FoldoutGroup("Heroes")]
+        private UnitData[] _unitData;
 
         [SerializeField, FoldoutGroup("UI")]
         private GameObject _buttonPrefab;
