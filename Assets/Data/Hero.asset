@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc1d33e2f2514ed486bcd804f6022134, type: 3}
+  m_Name: Hero
+  m_EditorClassIdentifier: 
+  _prefab: {fileID: 1211173956614281148, guid: 231155c78515942e6ba6a23fadb40a99, type: 3}
+  _moveData: {fileID: 11400000, guid: 5c0a75e4407564407aa8c93f5ecc10b0, type: 2}
+  _unitType: 0
+  _maxHealth: 100
+  _detectDistance: 3
+  _attackDamage: 5

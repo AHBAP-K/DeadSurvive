@@ -10,8 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc1d33e2f2514ed486bcd804f6022134, type: 3}
-  m_Name: UnitData
+  m_Name: Enemy
   m_EditorClassIdentifier: 
-  _prefab: {fileID: 146652, guid: a94d180b83397446bafc09e05b96d00d, type: 3}
-  _moveData: {fileID: 11400000, guid: 5c0a75e4407564407aa8c93f5ecc10b0, type: 2}
-  _detectDistance: 3
+  _prefab: {fileID: 1211173956614281148, guid: 8a3f148af21aa40669f023090e29bd0c, type: 3}
+  _moveData: {fileID: 11400000, guid: 8ea4d57252d5f40118a663af2f9d3842, type: 2}
+  _unitType: 1
+  _maxHealth: 20
+  _detectDistance: 2
+  _attackDamage: 3

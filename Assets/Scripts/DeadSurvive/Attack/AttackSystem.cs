@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using DeadSurvive.Moving;
-using DeadSurvive.Moving.Data;
 using DeadSurvive.Unit;
 using DeadSurvive.Unit.Enum;
 using DeadSurvive.ZoneDetect;
@@ -17,7 +14,6 @@ namespace DeadSurvive.Attack
             var attackPool = world.GetPool<AttackComponent>();
             var unitPool = world.GetPool<UnitComponent>();
             var detectPool = world.GetPool<DetectUnitComponent>();
-            var pressPositionPool = world.GetPool<TargetPositionComponent>();
             
             var filter = world.Filter<AttackComponent>().Inc<DetectUnitComponent>().Inc<UnitComponent>().End();
 
@@ -27,7 +23,7 @@ namespace DeadSurvive.Attack
                 ref var detectComponent = ref detectPool.Get(entity);
                 ref var attackComponent = ref attackPool.Get(entity);
                 
-                if (unitComponent.UnitState == UnitState.Move) 
+                if (unitComponent.UnitState == UnitState.Move || unitComponent.UnitState == UnitState.Attack) 
                 {
                     continue;
                 }
@@ -42,15 +38,7 @@ namespace DeadSurvive.Attack
                         continue;
                     }
                     
-                    if (pressPositionPool.Has(entity))
-                    {
-                        pressPositionPool.Del(entity);
-                    }
-            
-                    ref var pressComponent = ref pressPositionPool.Add(entity);
-                    var transformTarget = new TransformPositionHolder(detectedUnitComponent.UnitTransform);
-
-                    pressComponent.Configure(transformTarget);
+                    attackComponent.AttackUnit(world , ref unitComponent,  ref detectedUnitComponent);
                 }
             }
         }

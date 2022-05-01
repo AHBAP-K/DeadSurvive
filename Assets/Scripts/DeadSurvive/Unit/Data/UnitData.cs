@@ -1,4 +1,5 @@
 using DeadSurvive.Moving.Data;
+using DeadSurvive.Unit.Enum;
 using UnityEngine;
 
 namespace DeadSurvive.Unit.Data
@@ -12,10 +13,22 @@ namespace DeadSurvive.Unit.Data
 
         public float DetectDistance => _detectDistance;
 
+        public float MaxHealth => _maxHealth;
+
+        public float AttackDamage => _attackDamage;
+
+        public UnitType Type => _unitType;
+
         [SerializeField] private GameObject _prefab;
-        
+
         [SerializeField] private MoveData _moveData;
 
+        [SerializeField] private UnitType _unitType;
+        
+        [SerializeField] private float _maxHealth;
+        
         [SerializeField] private float _detectDistance;
+
+        [SerializeField] private float _attackDamage;
     }
 }
