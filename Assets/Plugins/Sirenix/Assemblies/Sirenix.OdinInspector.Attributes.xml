@@ -378,6 +378,11 @@
             <para>If this is set to false, the button method will instead be invoked through an ActionResolver or ValueResolver (based on whether it returns a value), giving access to contextual named parameter values like "InspectorProperty property" that can be passed to the button method.</para>
             </summary>
         </member>
+        <member name="F:Sirenix.OdinInspector.ButtonAttribute.DirtyOnClick">
+            <summary>
+            Whether the containing object or scene (if there is one) should be marked dirty when the button is clicked. True by default. Note that if this is false, undo for any changes caused by the button click is also disabled, as registering undo events also causes dirtying.
+            </summary>
+        </member>
         <member name="P:Sirenix.OdinInspector.ButtonAttribute.DrawResult">
             <summary>
             If the button has a return type, set this to false to not draw the result. Default value is true.
@@ -642,9 +647,48 @@
             Disables a property if it is drawn from a prefab asset or a prefab instance.
             </summary>
         </member>
+        <member name="F:Sirenix.OdinInspector.DisallowPrefabModificationsAttribute.ErrorMessage">
+            <summary>
+            The message of the info box.
+            </summary>
+        </member>
+        <member name="F:Sirenix.OdinInspector.DisallowPrefabModificationsAttribute.MessageType">
+            <summary>
+            The type of the info box.
+            </summary>
+        </member>
+        <member name="M:Sirenix.OdinInspector.DisallowPrefabModificationsAttribute.#ctor">
+            <summary>
+            Adds an error box to the inspector, if the property is missing.
+            </summary>
+        </member>
+        <member name="M:Sirenix.OdinInspector.DisallowPrefabModificationsAttribute.#ctor(System.String,Sirenix.OdinInspector.InfoMessageType)">
+            <summary>
+            Adds an info box to the inspector, if the property is missing.
+            </summary>
+            <param name="errorMessage">The message to display in the error box.</param>
+            <param name="messageType">The type of info box to draw.</param>
+        </member>
+        <member name="M:Sirenix.OdinInspector.DisallowPrefabModificationsAttribute.#ctor(System.String)">
+            <summary>
+            Adds an error box to the inspector, if the property is missing.
+            </summary>
+            <param name="errorMessage">The message to display in the error box.</param>
+        </member>
+        <member name="M:Sirenix.OdinInspector.DisallowPrefabModificationsAttribute.#ctor(Sirenix.OdinInspector.InfoMessageType)">
+            <summary>
+            Adds an info box to the inspector, if the property is missing.
+            </summary>
+            <param name="messageType">The type of info box to draw.</param>
+        </member>
         <member name="T:Sirenix.OdinInspector.DoNotDrawAsReferenceAttribute">
             <summary>
             Indicates that the member should not be drawn as a value reference, if it becomes a reference to another value in the tree. Beware, and use with care! This may lead to infinite draw loops!
+            </summary>
+        </member>
+        <member name="T:Sirenix.OdinInspector.DontValidateAttribute">
+            <summary>
+            Tells the validation system that this member should not be validated. It will not show validation messages in the inspector, and it will not be scanned by the project validator.
             </summary>
         </member>
         <member name="T:Sirenix.OdinInspector.EnableGUIAttribute">
@@ -1616,6 +1660,74 @@
             Adds a space between properties.
             </summary>
         </member>
+        <member name="F:Sirenix.OdinInspector.RequiredInPrefabAssetsAttribute.ErrorMessage">
+            <summary>
+            The message of the info box.
+            </summary>
+        </member>
+        <member name="F:Sirenix.OdinInspector.RequiredInPrefabAssetsAttribute.MessageType">
+            <summary>
+            The type of the info box.
+            </summary>
+        </member>
+        <member name="M:Sirenix.OdinInspector.RequiredInPrefabAssetsAttribute.#ctor">
+            <summary>
+            Adds an error box to the inspector, if the property is missing.
+            </summary>
+        </member>
+        <member name="M:Sirenix.OdinInspector.RequiredInPrefabAssetsAttribute.#ctor(System.String,Sirenix.OdinInspector.InfoMessageType)">
+            <summary>
+            Adds an info box to the inspector, if the property is missing.
+            </summary>
+            <param name="errorMessage">The message to display in the error box.</param>
+            <param name="messageType">The type of info box to draw.</param>
+        </member>
+        <member name="M:Sirenix.OdinInspector.RequiredInPrefabAssetsAttribute.#ctor(System.String)">
+            <summary>
+            Adds an error box to the inspector, if the property is missing.
+            </summary>
+            <param name="errorMessage">The message to display in the error box.</param>
+        </member>
+        <member name="M:Sirenix.OdinInspector.RequiredInPrefabAssetsAttribute.#ctor(Sirenix.OdinInspector.InfoMessageType)">
+            <summary>
+            Adds an info box to the inspector, if the property is missing.
+            </summary>
+            <param name="messageType">The type of info box to draw.</param>
+        </member>
+        <member name="F:Sirenix.OdinInspector.RequiredInPrefabInstancesAttribute.ErrorMessage">
+            <summary>
+            The message of the info box.
+            </summary>
+        </member>
+        <member name="F:Sirenix.OdinInspector.RequiredInPrefabInstancesAttribute.MessageType">
+            <summary>
+            The type of the info box.
+            </summary>
+        </member>
+        <member name="M:Sirenix.OdinInspector.RequiredInPrefabInstancesAttribute.#ctor">
+            <summary>
+            Adds an error box to the inspector, if the property is missing.
+            </summary>
+        </member>
+        <member name="M:Sirenix.OdinInspector.RequiredInPrefabInstancesAttribute.#ctor(System.String,Sirenix.OdinInspector.InfoMessageType)">
+            <summary>
+            Adds an info box to the inspector, if the property is missing.
+            </summary>
+            <param name="errorMessage">The message to display in the error box.</param>
+            <param name="messageType">The type of info box to draw.</param>
+        </member>
+        <member name="M:Sirenix.OdinInspector.RequiredInPrefabInstancesAttribute.#ctor(System.String)">
+            <summary>
+            Adds an error box to the inspector, if the property is missing.
+            </summary>
+            <param name="errorMessage">The message to display in the error box.</param>
+        </member>
+        <member name="M:Sirenix.OdinInspector.RequiredInPrefabInstancesAttribute.#ctor(Sirenix.OdinInspector.InfoMessageType)">
+            <summary>
+            Adds an info box to the inspector, if the property is missing.
+            </summary>
+            <param name="messageType">The type of info box to draw.</param>
+        </member>
         <member name="T:Sirenix.OdinInspector.ResponsiveButtonGroupAttribute">
             <summary>
             Groups buttons into a group that will position and resize the buttons based on the amount of available layout space.
@@ -2068,6 +2180,11 @@
             Gets or sets the title for the dropdown. Null by default.
             </summary>
         </member>
+        <member name="F:Sirenix.OdinInspector.TypeFilterAttribute.DrawValueNormally">
+            <summary>
+            If true, the value will be drawn normally after the type selector dropdown has been drawn. False by default.
+            </summary>
+        </member>
         <member name="M:Sirenix.OdinInspector.TypeFilterAttribute.#ctor(System.String)">
             <summary>
             Creates a dropdown menu for a property.
@@ -2259,6 +2376,11 @@
             }
             </code>
             </example>
+        </member>
+        <member name="T:Sirenix.OdinInspector.ISelfValidator">
+            <summary>
+            Any type implementing this interface will be considered to be validating itself using the implemented logic, as if a custom validator had been written for it.
+            </summary>
         </member>
         <member name="T:Sirenix.OdinInspector.ObjectFieldAlignment">
             <summary>
@@ -2590,6 +2712,11 @@
             Gets or sets a value indicating whether this instance is read only.
             </summary>
         </member>
+        <member name="F:Sirenix.OdinInspector.DictionaryDrawerSettings.KeyColumnWidth">
+            <summary>
+            Gets or sets a value indicating the default key column width of the dictionary.
+            </summary>
+        </member>
         <member name="T:Sirenix.OdinInspector.DisableContextMenuAttribute">
             <summary>
             <para>DisableContextMenu is used on any property and disables the context menu for that property.</para>
@@ -2853,6 +2980,11 @@
             Optional label of the button.
             </summary>
         </member>
+        <member name="F:Sirenix.OdinInspector.InlineButtonAttribute.ShowIf">
+            <summary>
+            Optional resolved string that specifies a condition for whether to show the inline button or not.
+            </summary>
+        </member>
         <member name="M:Sirenix.OdinInspector.InlineButtonAttribute.#ctor(System.String,System.String)">
             <summary>
             Draws a button to the right of the property.
@@ -2877,54 +3009,6 @@
             </summary>
             <param name="attr">Not yet documented.</param>
             <returns>Not yet documented.</returns>
-        </member>
-        <member name="T:Sirenix.OdinInspector.ShowForPrefabOnlyAttribute">
-            <summary>
-            <para>ShowForPrefabOnlyAttribute is used on any field or property, and only shows properties from prefab assets inspector.</para>
-            <para>Use this to ensure the same value on a property, across all instances of a prefab.</para>
-            </summary>
-            <remarks>
-            <para>On non-prefab objects or instances, this attribute does nothing, and allows properties to be edited as normal.</para>
-            </remarks>
-            <example>
-            <para>The following example shows how ShowForPrefabOnlyAttribute is used on properties.</para>
-            <code>
-            public class MyComponent
-            {
-            	[ShowForPrefabOnlyAttribute]
-            	public int MyInt;
-            }
-            </code>
-            </example>
-            <seealso cref="T:Sirenix.OdinInspector.EnableForPrefabOnlyAttribute"/>
-            <seealso cref="T:Sirenix.OdinInspector.ShowIfAttribute"/>
-            <seealso cref="T:Sirenix.OdinInspector.HideIfAttribute"/>
-            <seealso cref="T:Sirenix.OdinInspector.EnableIfAttribute"/>
-            <seealso cref="T:Sirenix.OdinInspector.DisableIfAttribute"/>
-        </member>
-        <member name="T:Sirenix.OdinInspector.EnableForPrefabOnlyAttribute">
-            <summary>
-            <para>EnableForPrefabOnly is used on any field or property, and only allows editing of values from prefab assets inspector.</para>
-            <para>Use this to ensure the same value on a property, across all instances of a prefab.</para>
-            </summary>
-            <remarks>
-            <para>On non-prefab objects or instances, this attribute does nothing, and allows properties to be edited as normal.</para>
-            </remarks>
-            <example>
-            <para>The following example shows how EnableForPrefabOnly is used on properties.</para>
-            <code>
-            public class MyComponent
-            {
-            	[EnableForPrefabOnly]
-            	public int MyInt;
-            }
-            </code>
-            </example>
-            <seealso cref="T:Sirenix.OdinInspector.EnableForPrefabOnlyAttribute"/>
-            <seealso cref="T:Sirenix.OdinInspector.EnableIfAttribute"/>
-            <seealso cref="T:Sirenix.OdinInspector.DisableIfAttribute"/>
-            <seealso cref="T:Sirenix.OdinInspector.ShowIfAttribute"/>
-            <seealso cref="T:Sirenix.OdinInspector.HideIfAttribute"/>
         </member>
         <member name="T:Sirenix.OdinInspector.EnableIfAttribute">
              <summary>
@@ -4048,6 +4132,11 @@
             Whether adding a new element should copy the last element. False by default.
             </summary>
         </member>
+        <member name="F:Sirenix.OdinInspector.ListDrawerSettingsAttribute.ElementColor">
+            <summary>
+            A resolved string with "int index" and "Color defaultColor" parameters that lets you control the color of individual elements.
+            </summary>
+        </member>
         <member name="P:Sirenix.OdinInspector.ListDrawerSettingsAttribute.ShowPaging">
             <summary>
             Override the default setting specified in the Advanced Odin Preferences window and explicitly tell whether paging should be enabled or not.
@@ -4502,6 +4591,11 @@
             Whether to perform the action when an undo or redo event occurs via UnityEditor.Undo.undoRedoPerformed. True by default.
             </summary>
         </member>
+        <member name="F:Sirenix.OdinInspector.OnValueChangedAttribute.InvokeOnInitialize">
+            <summary>
+            Whether to perform the action when the property is initialized. This will generally happen when the property is first viewed/queried (IE when the inspector is first opened, or when its containing foldout is first expanded, etc), and whenever its type or a parent type changes, or it is otherwise forced to rebuild.
+            </summary>
+        </member>
         <member name="M:Sirenix.OdinInspector.OnValueChangedAttribute.#ctor(System.String,System.Boolean)">
             <summary>
             Adds a callback for when the property's value is changed.
@@ -4941,6 +5035,11 @@
         <member name="F:Sirenix.OdinInspector.ValueDropdownAttribute.HideChildProperties">
             <summary>
             Whether to draw all child properties in a foldout.
+            </summary>
+        </member>
+        <member name="F:Sirenix.OdinInspector.ValueDropdownAttribute.CopyValues">
+            <summary>
+            Whether values selected by the value dropdown should be copies of the original or references (in the case of reference types). Defaults to true.
             </summary>
         </member>
         <member name="M:Sirenix.OdinInspector.ValueDropdownAttribute.#ctor(System.String)">
@@ -5503,9 +5602,10 @@
             Default message for invalid values.
             </summary>
         </member>
-        <member name="F:Sirenix.OdinInspector.ValidateInputAttribute.MemberName">
+        <member name="P:Sirenix.OdinInspector.ValidateInputAttribute.MemberName">
             <summary>
-            Name of callback function to validate input. The function must have at least one parameter of the same type as the property.
+            OBSOLETE; use the Condition member instead.
+            A resolved string that should evaluate to a boolean value, and which should validate the input. Note that in expressions, the $value named parameter, and in methods, a parameter named value, can be used to get the validated value instead of referring to the value by its containing member. This makes it easier to reuse validation strings.
             </summary>
         </member>
         <member name="F:Sirenix.OdinInspector.ValidateInputAttribute.Condition">
