@@ -1,11 +1,17 @@
+using System.Collections.Generic;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using DeadSurvive.Unit;
 using DeadSurvive.Unit.Enum;
 using Leopotam.EcsLite;
+using UnityEngine;
 
 namespace DeadSurvive.Moving
 {
     public class MovementSystem : IEcsRunSystem
     {
+        private readonly Dictionary<int, CancellationTokenSource> _moveCancellationTokens = new Dictionary<int, CancellationTokenSource>();
+        
         public void Run(EcsSystems systems)
         {
             var world = systems.GetWorld();
@@ -22,45 +28,67 @@ namespace DeadSurvive.Moving
         {
             var poolUnit = world.GetPool<UnitComponent>();
             var targetPositionPool = world.GetPool<TargetPositionComponent>();
-            var movePool = world.GetPool<MovementComponent>();
 
-            DisposeActiveMovement(movePool, unitEntity);
-
+            DisposeMoving(unitEntity);
+            
             ref var targetPositionComponent = ref targetPositionPool.Get(unitEntity);
             ref var unitComponent = ref poolUnit.Get(unitEntity);
-            ref var moveComponent = ref movePool.Add(unitEntity);
-
-            unitComponent.UnitState = UnitState.Move;
             
+            unitComponent.UnitState = UnitState.Move;
             targetPositionComponent.ReachedTarget += () => MovementComplete(world, unitEntity);
-
-            moveComponent.Begin(unitComponent, targetPositionComponent);
+            
+            var cancellationToken = new CancellationTokenSource();
+            var dummy = MoveObject(world, unitEntity, cancellationToken.Token);
+            
+            _moveCancellationTokens.Add(unitEntity, cancellationToken);
             
             targetPositionPool.Del(unitEntity);
         }
 
-        private void DisposeActiveMovement(EcsPool<MovementComponent> movePool, int unitEntity)
+        private void DisposeMoving(int entity)
         {
-            if (!movePool.Has(unitEntity))
+            if (!_moveCancellationTokens.ContainsKey(entity))
             {
                 return;
             }
             
-            ref var currentMoveComponent = ref movePool.Get(unitEntity);
-            currentMoveComponent.Dispose();
-            movePool.Del(unitEntity);
+            _moveCancellationTokens[entity].Cancel();
+            _moveCancellationTokens[entity].Dispose();
+            _moveCancellationTokens.Remove(entity);
         }
         
-        private void MovementComplete(EcsWorld world, int unitEntity)
+        private async UniTask MoveObject(EcsWorld world, int unitEntity, CancellationToken token)
         {
-            var poolUnit = world.GetPool<UnitComponent>();
-            var movePool = world.GetPool<MovementComponent>();
-
-            ref var completedTarget = ref poolUnit.Get(unitEntity);
-
-            completedTarget.UnitState = UnitState.Stay;
+            var unitComponent = world.GetPool<UnitComponent>().Get(unitEntity);
+            var targetComponent = world.GetPool<TargetPositionComponent>().Get(unitEntity);
             
-            movePool.Del(unitEntity);
+            var unitTransform = unitComponent.UnitTransform;
+            var distance = Vector2.Distance(unitTransform.position, targetComponent.PositionHolder.Position);
+
+            while (distance > targetComponent.CompleteDistance)
+            {
+                var speed = unitComponent.MoveData.Speed * Time.deltaTime;
+                var newPosition = Vector2.MoveTowards(unitTransform.position, targetComponent.PositionHolder.Position, speed);
+                
+                unitTransform.position = newPosition;
+
+                await UniTask.WaitForEndOfFrame(token).SuppressCancellationThrow();
+                
+                distance = Vector2.Distance(newPosition, targetComponent.PositionHolder.Position);
+
+                if (token.IsCancellationRequested)
+                {
+                    return;
+                }
+            }
+            
+            targetComponent.ReachedTarget?.Invoke();
+        }
+
+        private void MovementComplete(EcsWorld ecsWorld, int entity)
+        {
+            ref var unitComponent = ref ecsWorld.GetPool<UnitComponent>().Get(entity);
+            unitComponent.UnitState = UnitState.Stay;
         }
     }
 }
