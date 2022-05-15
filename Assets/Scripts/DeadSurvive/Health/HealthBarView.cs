@@ -4,10 +4,14 @@ namespace DeadSurvive.Health
 {
     public class HealthBarView : MonoBehaviour
     {
-        [SerializeField] private Transform _bar;
+        [SerializeField] 
+        private Transform _bar;
 
-        [SerializeField] private float _maxPositionX = 1f;
-        [SerializeField] private float _minPositionX = 0f;
+        [SerializeField] 
+        private float _maxPositionX = 1f;
+        
+        [SerializeField] 
+        private float _minPositionX = 0f;
 
         public void MoveBar(float direction)
         {

@@ -9,14 +9,14 @@ namespace DeadSurvive.ZoneDetect
         public void Run(EcsSystems systems)
         {
             var world = systems.GetWorld();
-            var detectPool = world.GetPool<DetectUnitComponent>();
+            var detectPool = world.GetPool<DetectComponent>();
             var unitPool = world.GetPool<UnitComponent>();
-            var filter = world.Filter<DetectUnitComponent>().Inc<UnitComponent>().End();
+            var filter = world.Filter<DetectComponent>().Inc<UnitComponent>().End();
 
             foreach (var entity in filter)
             {
-                var detectUnitComponent = detectPool.Get(entity);
-                var unitComponent = unitPool.Get(entity);
+                ref var detectUnitComponent = ref detectPool.Get(entity);
+                ref var unitComponent = ref unitPool.Get(entity);
                 
                 foreach (var entityDetect in filter)
                 {
@@ -25,17 +25,17 @@ namespace DeadSurvive.ZoneDetect
                         continue;
                     }
                     
-                    var targetUnitComponent = unitPool.Get(entityDetect);
-                    var entityIsContains = detectUnitComponent.DetectedUnitEntities.Contains(entityDetect);
+                    ref var targetUnitComponent = ref unitPool.Get(entityDetect);
+                    var entityIsContains = detectUnitComponent.DetectedEntities.Contains(entityDetect);
                     var distance = Vector2.Distance(unitComponent.UnitTransform.position, targetUnitComponent.UnitTransform.position);
 
                     if (detectUnitComponent.DetectDistance > distance && !entityIsContains)
                     {
-                        detectUnitComponent.DetectedUnitEntities.Add(entityDetect);
+                        detectUnitComponent.DetectedEntities.Add(entityDetect);
                     }
                     else if(detectUnitComponent.DetectDistance < distance && entityIsContains)
                     {
-                        detectUnitComponent.DetectedUnitEntities.Remove(entityDetect);
+                        detectUnitComponent.DetectedEntities.Remove(entityDetect);
                     }
                 }
             }

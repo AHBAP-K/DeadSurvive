@@ -1,21 +1,21 @@
 using System;
+using DeadSurvive.Condition.Interfaces;
 using DeadSurvive.Moving.Interfaces;
 
 namespace DeadSurvive.Moving
 {
-    [Serializable]
-    public struct TargetPositionComponent
+    public struct MoveComponent
     {
         public IPositionHolder PositionHolder { get; private set; }
         
-        public float CompleteDistance { get; private set; }
+        public ICondition Condition { get; private set; }
 
         public Action ReachedTarget { get; set; }
 
-        public void Configure(IPositionHolder targetPosition)
+        public void Configure(IPositionHolder targetPosition, ICondition condition)
         {
             PositionHolder = targetPosition;
-            CompleteDistance = 0.1f;
+            Condition = condition;
             ReachedTarget = delegate {  };
         }
     }

@@ -16,7 +16,7 @@ namespace DeadSurvive.Moving
         {
             var world = systems.GetWorld();
             
-            var filterUnit = world.Filter<UnitComponent>().Inc<TargetPositionComponent>().End();
+            var filterUnit = world.Filter<UnitComponent>().Inc<MoveComponent>().End();
 
             foreach (var unitEntity in filterUnit)
             {
@@ -27,24 +27,59 @@ namespace DeadSurvive.Moving
         private void MoveUnit(EcsWorld world, int unitEntity)
         {
             var poolUnit = world.GetPool<UnitComponent>();
-            var targetPositionPool = world.GetPool<TargetPositionComponent>();
+            var poolMove = world.GetPool<MoveComponent>();
 
             DisposeMoving(unitEntity);
             
-            ref var targetPositionComponent = ref targetPositionPool.Get(unitEntity);
             ref var unitComponent = ref poolUnit.Get(unitEntity);
             
             unitComponent.UnitState = UnitState.Move;
-            targetPositionComponent.ReachedTarget += () => MovementComplete(world, unitEntity);
             
             var cancellationToken = new CancellationTokenSource();
             var dummy = MoveObject(world, unitEntity, cancellationToken.Token);
             
             _moveCancellationTokens.Add(unitEntity, cancellationToken);
-            
-            targetPositionPool.Del(unitEntity);
+            poolMove.Del(unitEntity);
         }
 
+        private async UniTask MoveObject(EcsWorld world, int unitEntity, CancellationToken token)
+        {
+            Debug.Log($"[{nameof(MovementSystem)}] Entity: {unitEntity}, {nameof(MoveObject)}");
+            
+            var unitComponent = world.GetPool<UnitComponent>().Get(unitEntity);
+            var moveComponent = world.GetPool<MoveComponent>().Get(unitEntity);
+            
+            var unitTransform = unitComponent.UnitTransform;
+
+            while (moveComponent.Condition.Check())
+            {
+                var speed = unitComponent.MoveData.Speed * Time.deltaTime;
+                var newPosition = Vector2.MoveTowards(unitTransform.position, moveComponent.PositionHolder.Position, speed);
+                
+                unitTransform.position = newPosition;
+
+                await UniTask.WaitForEndOfFrame(token).SuppressCancellationThrow();
+                
+                if (token.IsCancellationRequested)
+                {
+                    return;
+                }
+            }
+
+            MovementComplete(world, unitEntity);
+            moveComponent.ReachedTarget?.Invoke();
+        }
+        
+        private void MovementComplete(EcsWorld ecsWorld, int entity)
+        {
+            Debug.Log($"[{nameof(MovementSystem)}] Entity: {entity}, {nameof(MovementComplete)}");
+            
+            ref var unitComponent = ref ecsWorld.GetPool<UnitComponent>().Get(entity);
+            unitComponent.UnitState = UnitState.Stay;
+
+            DisposeMoving(entity);
+        }
+        
         private void DisposeMoving(int entity)
         {
             if (!_moveCancellationTokens.ContainsKey(entity))
@@ -52,43 +87,11 @@ namespace DeadSurvive.Moving
                 return;
             }
             
+            Debug.Log($"[{nameof(MovementSystem)}] Entity: {entity}, {nameof(DisposeMoving)}");
+
             _moveCancellationTokens[entity].Cancel();
             _moveCancellationTokens[entity].Dispose();
             _moveCancellationTokens.Remove(entity);
-        }
-        
-        private async UniTask MoveObject(EcsWorld world, int unitEntity, CancellationToken token)
-        {
-            var unitComponent = world.GetPool<UnitComponent>().Get(unitEntity);
-            var targetComponent = world.GetPool<TargetPositionComponent>().Get(unitEntity);
-            
-            var unitTransform = unitComponent.UnitTransform;
-            var distance = Vector2.Distance(unitTransform.position, targetComponent.PositionHolder.Position);
-
-            while (distance > targetComponent.CompleteDistance)
-            {
-                var speed = unitComponent.MoveData.Speed * Time.deltaTime;
-                var newPosition = Vector2.MoveTowards(unitTransform.position, targetComponent.PositionHolder.Position, speed);
-                
-                unitTransform.position = newPosition;
-
-                await UniTask.WaitForEndOfFrame(token).SuppressCancellationThrow();
-                
-                distance = Vector2.Distance(newPosition, targetComponent.PositionHolder.Position);
-
-                if (token.IsCancellationRequested)
-                {
-                    return;
-                }
-            }
-            
-            targetComponent.ReachedTarget?.Invoke();
-        }
-
-        private void MovementComplete(EcsWorld ecsWorld, int entity)
-        {
-            ref var unitComponent = ref ecsWorld.GetPool<UnitComponent>().Get(entity);
-            unitComponent.UnitState = UnitState.Stay;
         }
     }
 }

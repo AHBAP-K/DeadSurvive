@@ -1,7 +1,9 @@
 using DeadSurvive.Common;
+using DeadSurvive.Condition;
 using DeadSurvive.HeroButton;
 using DeadSurvive.Moving;
 using DeadSurvive.Moving.Data;
+using DeadSurvive.Unit;
 using Leopotam.EcsLite;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -18,8 +20,9 @@ namespace DeadSurvive.TapPosition
         {
             var ecsWorld = EcsSystems.GetWorld();
             
-            var pressPositionPool = ecsWorld.GetPool<TargetPositionComponent>(); 
+            var pressPositionPool = ecsWorld.GetPool<MoveComponent>(); 
             var buttonsPool = ecsWorld.GetPool<ButtonComponent>();
+            var unitPool = ecsWorld.GetPool<UnitComponent>();
             
             var filterMove = ecsWorld.Filter<ButtonComponent>().End();
             
@@ -38,8 +41,13 @@ namespace DeadSurvive.TapPosition
                 }
 
                 ref var pressComponent = ref pressPositionPool.Add(entityMove);
-                var vectorPosition = new VectorPositionHolder(_camera.ScreenToWorldPoint(Input.mousePosition));
-                pressComponent.Configure(vectorPosition);
+                ref var unitComponent = ref unitPool.Get(entityMove);
+                
+                var pressPosition = _camera.ScreenToWorldPoint(Input.mousePosition);
+                var vectorPosition = new VectorPositionHolder(pressPosition);
+                var moveCondition = new MoveToPositionCondition(unitComponent.UnitTransform ,pressPosition, 0.1f);
+                
+                pressComponent.Configure(vectorPosition, moveCondition);
             }
         }
     }

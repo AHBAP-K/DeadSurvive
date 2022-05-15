@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.U2D;
-
 #if UNITY_EDITOR
 using UnityEditor;
 #endif

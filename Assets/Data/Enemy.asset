@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _prefab: {fileID: 1211173956614281148, guid: 8a3f148af21aa40669f023090e29bd0c, type: 3}
   _moveData: {fileID: 11400000, guid: 8ea4d57252d5f40118a663af2f9d3842, type: 2}
+  _attackData: {fileID: 11400000, guid: 7abe4f70bf6cf4c6086c889c098a6fd3, type: 2}
   _unitType: 1
   _maxHealth: 20
   _detectDistance: 2
-  _attackDamage: 3

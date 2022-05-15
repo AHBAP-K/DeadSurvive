@@ -15,8 +15,7 @@ namespace DeadSurvive.Unit
         {
             var world = systems.GetWorld();
             var data = systems.GetShared<GameData>();
-            var detectPool = world.GetPool<DetectUnitComponent>();
-            var attackPool = world.GetPool<AttackComponent>();
+            var detectPool = world.GetPool<DetectComponent>();
             var unitPool = world.GetPool<UnitComponent>();
             var healthPool = world.GetPool<HealthComponent>();
 
@@ -30,20 +29,17 @@ namespace DeadSurvive.Unit
                 var healthBarView = unitObject.GetComponent<HealthBarView>();
                 
                 ref var detectUnitComponent = ref detectPool.Add(unitEntity);
-                ref var attackComponent = ref attackPool.Add(unitEntity);
                 ref var unitComponent = ref unitPool.Add(unitEntity);
                 ref var healthComponent = ref healthPool.Add(unitEntity);
 
-                unitComponent.UnitEntity = unitEntity;
                 unitComponent.UnitState = UnitState.Stay;
                 unitComponent.UnitType = unitData.Type;
                 unitComponent.UnitTransform = unitObject.transform;
                 unitComponent.MoveData = unitData.MoveData;
+                unitComponent.AttackData = unitData.AttackData;
 
                 detectUnitComponent.DetectDistance = unitData.DetectDistance;
-                detectUnitComponent.DetectedUnitEntities = new List<int>(10);
-                
-                attackComponent.Configure(unitData.AttackDamage);
+                detectUnitComponent.DetectedEntities = new List<int>(10);
                 
                 healthComponent.Configure(unitData.MaxHealth);
                 healthComponent.HealthChanged += healthBarView.MoveBar;
