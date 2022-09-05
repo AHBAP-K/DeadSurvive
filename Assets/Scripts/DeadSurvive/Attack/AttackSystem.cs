@@ -46,14 +46,12 @@ namespace DeadSurvive.Attack
                 for (int i = 0; i < detectComponent.DetectedEntities.Count; i++)
                 {
                     var detectedEntity = detectComponent.DetectedEntities[i];
-                    var detectedUnitComponent = unitPool.Get(detectedEntity);
+                    var detectedUnitComponent = unitPool.Get(detectedEntity.Entity);
 
-                    if (unitComponent.UnitType == detectedUnitComponent.UnitType)
+                    if (unitComponent.UnitType != detectedUnitComponent.UnitType && detectedEntity.Distance < 3f)
                     {
-                        continue;
+                        AttackUnit(world, entity, detectedEntity.Entity);
                     }
-
-                    AttackUnit(world, entity, detectedEntity);
                 }
             }
         }
@@ -63,10 +61,6 @@ namespace DeadSurvive.Attack
             Debug.Log($"[{nameof(AttackSystem)}] {nameof(AttackUnit)} Entity: {entityUnit}, Target: {entityTarget}");
 
             DisposeAttack(entityUnit);
-            
-            var cancellationToken = new CancellationTokenSource();
-            
-            _attackCancellationTokens.Add(entityUnit, cancellationToken);
 
             var positionPool = ecsWorld.GetPool<MoveComponent>();
             var unitPool = ecsWorld.GetPool<UnitComponent>();
@@ -85,7 +79,9 @@ namespace DeadSurvive.Attack
 
             targetPositionComponent.ReachedTarget += () =>
             {
-                AttackTarget(ecsWorld, entityUnit, entityTarget, cancellationToken.Token);
+                var cancellationToken = new CancellationTokenSource();
+                _attackCancellationTokens.Add(entityUnit, cancellationToken);
+                AttackTarget(ecsWorld, entityUnit, entityTarget, cancellationToken.Token).Forget();
             };
         }
         
@@ -95,15 +91,14 @@ namespace DeadSurvive.Attack
             
             ChangeUnitState(ecsWorld, entityUnit, UnitState.Attack);
             
-            var targetHealthComponent =  ecsWorld.GetPool<HealthComponent>().Get(entityTarget);
-            var unitComponent =  ecsWorld.GetPool<UnitComponent>().Get(entityUnit);
+            var attackComponent =  ecsWorld.GetPool<AttackComponent>().Get(entityUnit);
             var attackCondition = new AttackCondition(ecsWorld, entityUnit, entityTarget);
             
             while (attackCondition.Check())
             {
-                targetHealthComponent.ChangeHealth(-unitComponent.AttackData.AttackDamage);
+                Attack(ecsWorld, entityUnit, entityTarget);
                 
-                await UniTask.Delay(TimeSpan.FromSeconds(unitComponent.AttackData.AttackDelay), cancellationToken: cancellationToken).SuppressCancellationThrow();
+                await UniTask.Delay(TimeSpan.FromSeconds(attackComponent.AttackDelay), cancellationToken: cancellationToken).SuppressCancellationThrow();
                 
                 if (cancellationToken.IsCancellationRequested)
                 {
@@ -112,6 +107,14 @@ namespace DeadSurvive.Attack
             }
             
             ChangeUnitState(ecsWorld, entityUnit, UnitState.Stay);
+        }
+
+        private void Attack(EcsWorld ecsWorld, int entityUnit, int entityTarget)
+        {
+            ref var attackComponent = ref ecsWorld.GetPool<AttackComponent>().Get(entityUnit);
+            ref var healthChangeComponent = ref ecsWorld.GetPool<HealthChangeComponent>().Add(entityTarget);
+
+            healthChangeComponent.Points = attackComponent.AttackDamage;
         }
         
         private void ChangeUnitState(EcsWorld ecsWorld, int entity, UnitState unitState)

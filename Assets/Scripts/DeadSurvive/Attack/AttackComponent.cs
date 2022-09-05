@@ -1,18 +1,21 @@
-using System;
-using DeadSurvive.Condition.Interfaces;
-
 namespace DeadSurvive.Attack
 {
     public struct AttackComponent
     {
-        public ICondition Condition { get; private set; }
-        
-        public Action ReachedTarget { get; set; }
+        public float AttackDamage { get; private set; }
 
-        public void Configure(ICondition condition)
+        public float AttackDelay { get; private set; }
+
+        public float AttackRange { get; private set; }
+
+        public float AttackDetectRange { get; private set; }
+
+        public void Setup(AttackData attackData)
         {
-            Condition = condition;
-            ReachedTarget = delegate {  };
+            AttackDamage = attackData.AttackDamage;
+            AttackDelay = attackData.AttackDelay;
+            AttackRange = attackData.AttackRange;
+            AttackDetectRange = attackData.AttackDetectRange;
         }
     }
 }

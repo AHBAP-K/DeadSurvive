@@ -16,13 +16,18 @@ namespace DeadSurvive.Common.Data
         public GameObject ButtonPrefab => _buttonPrefab;
 
         public Transform ButtonSpawnPoint => _buttonSpawnPoint;
-        
+
+        public UnitData[] EnemyData => _enemyData;
+
         [SerializeField, FoldoutGroup("Units")] 
         private List<PositionDataHolder> _unitSpawnPoint;
 
         [SerializeField, FoldoutGroup("Units")]
         private UnitData[] _unitData;
-
+        
+        [SerializeField, FoldoutGroup("Enemy")]
+        private UnitData[] _enemyData;
+        
         [SerializeField, FoldoutGroup("UI")]
         private GameObject _buttonPrefab;
         

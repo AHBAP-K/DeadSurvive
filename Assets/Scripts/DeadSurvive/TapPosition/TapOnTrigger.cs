@@ -20,7 +20,7 @@ namespace DeadSurvive.TapPosition
         {
             var ecsWorld = EcsSystems.GetWorld();
             
-            var pressPositionPool = ecsWorld.GetPool<MoveComponent>(); 
+            var movePool = ecsWorld.GetPool<MoveComponent>(); 
             var buttonsPool = ecsWorld.GetPool<ButtonComponent>();
             var unitPool = ecsWorld.GetPool<UnitComponent>();
             
@@ -35,19 +35,19 @@ namespace DeadSurvive.TapPosition
                     continue;
                 }
                 
-                if (pressPositionPool.Has(entityMove))
+                if (movePool.Has(entityMove))
                 {
-                    pressPositionPool.Del(entityMove);
+                    movePool.Del(entityMove);
                 }
 
-                ref var pressComponent = ref pressPositionPool.Add(entityMove);
+                ref var moveComponent = ref movePool.Add(entityMove);
                 ref var unitComponent = ref unitPool.Get(entityMove);
                 
                 var pressPosition = _camera.ScreenToWorldPoint(Input.mousePosition);
                 var vectorPosition = new VectorPositionHolder(pressPosition);
                 var moveCondition = new MoveToPositionCondition(unitComponent.UnitTransform ,pressPosition, 0.1f);
                 
-                pressComponent.Configure(vectorPosition, moveCondition);
+                moveComponent.Configure(vectorPosition, moveCondition);
             }
         }
     }

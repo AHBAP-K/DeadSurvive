@@ -1,4 +1,3 @@
-using DeadSurvive.Moving.Interfaces;
 using UnityEngine;
 
 namespace DeadSurvive.Moving.Data

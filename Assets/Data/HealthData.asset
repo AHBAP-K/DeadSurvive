@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50f8fe9d08cb4dbab6f9ab2999a296de, type: 3}
-  m_Name: AttackData
+  m_Script: {fileID: 11500000, guid: 3d8393003d0f40ca9c0b88bd870265ef, type: 3}
+  m_Name: HealthData
   m_EditorClassIdentifier: 
-  _attackDamage: -10
-  _attackRange: 0.3
-  _attackDelay: 0.5
+  _maxHealth: 100
+  _position: {x: 0, y: 0.7, z: 0}
+  _healthBarPrefab: {fileID: 5521946115947469588, guid: cf125b75b971d47cd964dc4048c13ceb, type: 3}

@@ -1,5 +1,4 @@
 using DeadSurvive.Common.Data;
-using DeadSurvive.Unit;
 using Leopotam.EcsLite;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,7 +15,7 @@ namespace DeadSurvive.HeroButton
             
             var world = systems.GetWorld();
             var data = systems.GetShared<GameData>();
-            var unitComponentFilter = world.Filter<UnitComponent>().End();
+            var unitComponentFilter = world.Filter<ButtonTag>().End();
             var buttonPoll = world.GetPool<ButtonComponent>();
 
             foreach (var entity in unitComponentFilter)

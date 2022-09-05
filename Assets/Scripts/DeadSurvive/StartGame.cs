@@ -1,15 +1,17 @@
 using System.Collections.Generic;
 using DeadSurvive.Attack;
+using DeadSurvive.Common;
 using DeadSurvive.Common.Data;
+using DeadSurvive.Health;
 using DeadSurvive.HeroButton;
 using DeadSurvive.Moving;
-using DeadSurvive.Unit;
+using DeadSurvive.Spawner;
 using DeadSurvive.ZoneDetect;
 using Leopotam.EcsLite;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace DeadSurvive.Common
+namespace DeadSurvive
 {
     public class StartGame : SerializedMonoBehaviour
     {
@@ -34,7 +36,8 @@ namespace DeadSurvive.Common
                 _ecsSystemHolders[i].EcsSystems = _ecsStartSystems;
             }
             
-            _ecsStartSystems.Add(new UnitInitSystem());
+            _ecsStartSystems.Add(new HeroSpawnSystem());
+            _ecsStartSystems.Add(new EnemySpawnSystem());
             _ecsStartSystems.Add(new InitButtonSystem());
 
             _ecsStartSystems.Init();
@@ -44,6 +47,7 @@ namespace DeadSurvive.Common
             _ecsUpdateSystems.Add(new MovementSystem());
             _ecsUpdateSystems.Add(new ZoneDetectSystem());
             _ecsUpdateSystems.Add(new AttackSystem());
+            _ecsUpdateSystems.Add(new HealthSystem());
             
             _ecsUpdateSystems.Init();
         }

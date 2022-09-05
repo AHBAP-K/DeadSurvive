@@ -1,4 +1,3 @@
-using DeadSurvive.Attack.Data;
 using DeadSurvive.Moving.Data;
 using DeadSurvive.Unit.Enum;
 using UnityEngine;
@@ -14,7 +13,5 @@ namespace DeadSurvive.Unit
         public Transform UnitTransform { get; set; }
 
         public MoveData MoveData { get; set; }
-        
-        public AttackData AttackData { get; set; }
     }
 }

@@ -1,11 +1,12 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace DeadSurvive.ZoneDetect
 {
     public struct DetectComponent
     {
-        public float DetectDistance { get; set; }
-
-        public List<int> DetectedEntities { get; set; }
+        public Transform ObjectTransform { get; set; }
+        
+        public List<DetectedEntity> DetectedEntities { get; set; }
     }
 }

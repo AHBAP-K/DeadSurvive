@@ -1,6 +1,6 @@
 using System;
 using DeadSurvive.Condition.Interfaces;
-using DeadSurvive.Moving.Interfaces;
+using DeadSurvive.Moving.Data;
 
 namespace DeadSurvive.Moving
 {

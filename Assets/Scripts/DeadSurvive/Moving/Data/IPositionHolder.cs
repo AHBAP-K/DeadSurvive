@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace DeadSurvive.Moving.Interfaces
+namespace DeadSurvive.Moving.Data
 {
     public interface IPositionHolder
     {

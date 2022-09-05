@@ -10,7 +10,7 @@ namespace DeadSurvive.Moving
 {
     public class MovementSystem : IEcsRunSystem
     {
-        private readonly Dictionary<int, CancellationTokenSource> _moveCancellationTokens = new Dictionary<int, CancellationTokenSource>();
+        private readonly Dictionary<int, CancellationTokenSource> _moveCancellationTokens = new();
         
         public void Run(EcsSystems systems)
         {
