@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 599859348, guid: afbf832bc46149f5a291e87cab63e46d, type: 3}
-  m_Name: GlobalSessionConfigData
+  m_Script: {fileID: 217257422, guid: afbf832bc46149f5a291e87cab63e46d, type: 3}
+  m_Name: Main Profile
   m_EditorClassIdentifier: 
   Include:
   - Enabled: 1
@@ -62,3 +62,4 @@ MonoBehaviour:
     AssetBundle: 
     AddressableGroup: 
   Exclude: []
+  icon: 391

@@ -1,3 +1,11 @@
+Odin Inspector makes use of the Bootstrap icon library.
+The library has been packed into the SdfIconAtlas.png 
+file as SDF data.
+
+Bootstrap is released under the following license:
+
+---
+
 The MIT License (MIT)
 
 Copyright (c) 2011-2018 Twitter, Inc.
