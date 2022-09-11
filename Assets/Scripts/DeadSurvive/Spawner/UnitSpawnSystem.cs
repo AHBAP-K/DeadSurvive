@@ -5,7 +5,7 @@ namespace DeadSurvive.Spawner
 {
     public class UnitSpawnSystem : IEcsInitSystem
     {
-        public void Init(EcsSystems systems)
+        public void Init(IEcsSystems systems)
         {
             var world = systems.GetWorld();
             var data = systems.GetShared<GameData>();

@@ -7,9 +7,9 @@ namespace DeadSurvive.HeroButton
 {
     public class InitButtonSystem : IEcsInitSystem
     {
-        private EcsSystems _ecsSystems;
+        private IEcsSystems _ecsSystems;
         
-        public void Init(EcsSystems systems)
+        public void Init(IEcsSystems systems)
         {
             _ecsSystems = systems;
             

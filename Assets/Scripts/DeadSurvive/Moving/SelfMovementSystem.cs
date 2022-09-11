@@ -9,7 +9,7 @@ namespace DeadSurvive.Moving
 {
     public class SelfMovementSystem : IEcsRunSystem
     {
-        public void Run(EcsSystems systems)
+        public void Run(IEcsSystems systems)
         {
             var world = systems.GetWorld();
 

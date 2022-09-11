@@ -12,7 +12,7 @@ namespace DeadSurvive.Moving
     {
         private readonly Dictionary<int, CancellationTokenSource> _moveCancellationTokens = new();
         
-        public void Run(EcsSystems systems)
+        public void Run(IEcsSystems systems)
         {
             var world = systems.GetWorld();
             var filterUnit = world.Filter<UnitComponent>().Inc<MoveDestinationComponent>().End();

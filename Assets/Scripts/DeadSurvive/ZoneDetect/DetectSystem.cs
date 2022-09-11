@@ -5,7 +5,7 @@ namespace DeadSurvive.ZoneDetect
 {
     public class ZoneDetectSystem : IEcsRunSystem
     {
-        public void Run(EcsSystems systems)
+        public void Run(IEcsSystems systems)
         {
             var world = systems.GetWorld();
             var detectPool = world.GetPool<DetectComponent>();

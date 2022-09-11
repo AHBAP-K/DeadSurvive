@@ -19,7 +19,7 @@ namespace DeadSurvive.Attack
     {
         private readonly Dictionary<int, CancellationTokenSource> _attackCancellationTokens = new Dictionary<int, CancellationTokenSource>();
 
-        public void Run(EcsSystems systems)
+        public void Run(IEcsSystems systems)
         {
             var world = systems.GetWorld();
 
