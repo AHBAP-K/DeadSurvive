@@ -62,7 +62,7 @@ namespace DeadSurvive.Attack
 
             DisposeAttack(entityUnit);
 
-            var positionPool = ecsWorld.GetPool<MoveComponent>();
+            var positionPool = ecsWorld.GetPool<MoveDestinationComponent>();
             var unitPool = ecsWorld.GetPool<UnitComponent>();
             
             if (positionPool.Has(entityUnit))

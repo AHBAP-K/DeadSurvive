@@ -6,8 +6,7 @@ using UnityEngine;
 
 namespace DeadSurvive.Unit.Data
 {
-    [CreateAssetMenu(fileName = "UnitData", menuName = "DeadSurvive/UnitData", order = 0)]
-    public class UnitData : ScriptableObject
+    public abstract class UnitData : ScriptableObject
     {
         public GameObject Prefab => _prefab;
 
@@ -16,11 +15,8 @@ namespace DeadSurvive.Unit.Data
         public AttackData AttackData => _attackData;
         
         public HealthData HealthData => _healthData;
-
-        public float DetectDistance => _detectDistance;
         
         public UnitType Type => _unitType;
-
 
         [SerializeField] 
         private GameObject _prefab;
@@ -36,10 +32,5 @@ namespace DeadSurvive.Unit.Data
 
         [SerializeField] 
         private UnitType _unitType;
-
-        [SerializeField] 
-        private float _detectDistance;
-
-
     }
 }

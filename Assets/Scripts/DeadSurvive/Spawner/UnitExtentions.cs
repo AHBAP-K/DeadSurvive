@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using DeadSurvive.Attack;
 using DeadSurvive.Health;
+using DeadSurvive.Moving;
 using DeadSurvive.Unit;
 using DeadSurvive.Unit.Data;
 using DeadSurvive.Unit.Enum;
@@ -12,7 +13,7 @@ namespace DeadSurvive.Spawner
 {
     public static class UnitExtensions
     {
-        public static int UnitSpawn(this UnitData unitData, EcsWorld world, Vector3 position)
+        public static int UnitSpawn(this EcsWorld world, UnitData unitData, Vector3 position)
         {
             var detectPool = world.GetPool<DetectComponent>();
             var unitPool = world.GetPool<UnitComponent>();
@@ -27,8 +28,8 @@ namespace DeadSurvive.Spawner
             unitComponent.UnitState = UnitState.Stay;
             unitComponent.UnitType = unitData.Type;
             unitComponent.UnitTransform = unitObject.transform;
-            unitComponent.MoveData = unitData.MoveData;
-            
+
+            world.AddMoveComponent(unitData.MoveData, unitEntity);
             world.AddAttackComponent(unitData.AttackData, unitEntity);
             world.AddHealthComponent(unitData.HealthData, unitEntity, unitObject.transform);
 

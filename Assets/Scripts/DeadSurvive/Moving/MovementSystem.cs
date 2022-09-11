@@ -15,8 +15,7 @@ namespace DeadSurvive.Moving
         public void Run(EcsSystems systems)
         {
             var world = systems.GetWorld();
-            
-            var filterUnit = world.Filter<UnitComponent>().Inc<MoveComponent>().End();
+            var filterUnit = world.Filter<UnitComponent>().Inc<MoveDestinationComponent>().End();
 
             foreach (var unitEntity in filterUnit)
             {
@@ -27,7 +26,7 @@ namespace DeadSurvive.Moving
         private void MoveUnit(EcsWorld world, int unitEntity)
         {
             var poolUnit = world.GetPool<UnitComponent>();
-            var poolMove = world.GetPool<MoveComponent>();
+            var poolMove = world.GetPool<MoveDestinationComponent>();
 
             DisposeMoving(unitEntity);
             
@@ -48,13 +47,14 @@ namespace DeadSurvive.Moving
             
             var unitComponent = world.GetPool<UnitComponent>().Get(unitEntity);
             var moveComponent = world.GetPool<MoveComponent>().Get(unitEntity);
-            
+            var moveDestinationComponent = world.GetPool<MoveDestinationComponent>().Get(unitEntity);
+
             var unitTransform = unitComponent.UnitTransform;
 
-            while (moveComponent.Condition.Check())
+            while (moveDestinationComponent.Condition.Check())
             {
-                var speed = unitComponent.MoveData.Speed * Time.deltaTime;
-                var newPosition = Vector2.MoveTowards(unitTransform.position, moveComponent.PositionHolder.Position, speed);
+                var speed = moveComponent.Speed * Time.deltaTime;
+                var newPosition = Vector2.MoveTowards(unitTransform.position, moveDestinationComponent.PositionHolder.Position, speed);
                 
                 unitTransform.position = newPosition;
 
@@ -67,7 +67,7 @@ namespace DeadSurvive.Moving
             }
 
             MovementComplete(world, unitEntity);
-            moveComponent.ReachedTarget?.Invoke();
+            moveDestinationComponent.ReachedTarget?.Invoke();
         }
         
         private void MovementComplete(EcsWorld ecsWorld, int entity)

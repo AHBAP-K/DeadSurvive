@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace DeadSurvive.Moving.Data
 {
-    [CreateAssetMenu(fileName = "Moving", menuName = "DeadSurvive/Moving", order = 0)]
+    [CreateAssetMenu(fileName = "Moving", menuName = "DeadSurvive/Moving/Moving", order = 0)]
     public class MoveData : ScriptableObject
     {
         public float Speed => _speed;

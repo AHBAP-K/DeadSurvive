@@ -15,28 +15,21 @@ namespace DeadSurvive.HeroButton
             
             var world = systems.GetWorld();
             var data = systems.GetShared<GameData>();
-            var unitComponentFilter = world.Filter<ButtonTag>().End();
-            var buttonPoll = world.GetPool<ButtonComponent>();
+            var buttonFilter = world.Filter<ButtonComponent>().End();
 
-            foreach (var entity in unitComponentFilter)
+            foreach (var entity in buttonFilter)
             {
                 var button = Object.Instantiate(data.ButtonPrefab, data.ButtonSpawnPoint);
                 var buttonUnityBehaviour = button.GetComponent<Button>();
                 
-                buttonPoll.Add(entity);
-                
                 buttonUnityBehaviour.onClick.AddListener(() =>
                 {
-                    DisableAll();
-                    
-                    ref var buttonComponent = ref buttonPoll.Get(entity);
-                    buttonComponent.IsSelected = true;
+                    SetSelected(entity);
                 });
             }
         }
 
-
-        private void DisableAll()
+        private void SetSelected(int targetEntity)
         {
             var buttonPoll = _ecsSystems.GetWorld().GetPool<ButtonComponent>();
             var filter = _ecsSystems.GetWorld().Filter<ButtonComponent>().End();
@@ -44,7 +37,7 @@ namespace DeadSurvive.HeroButton
             foreach (var entity in filter)
             {
                 ref var buttonComponent = ref buttonPoll.Get(entity);
-                buttonComponent.IsSelected = false;
+                buttonComponent.IsSelected = targetEntity == entity;
             }
         }
     }

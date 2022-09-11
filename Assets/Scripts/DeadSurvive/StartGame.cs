@@ -36,8 +36,7 @@ namespace DeadSurvive
                 _ecsSystemHolders[i].EcsSystems = _ecsStartSystems;
             }
             
-            _ecsStartSystems.Add(new HeroSpawnSystem());
-            _ecsStartSystems.Add(new EnemySpawnSystem());
+            _ecsStartSystems.Add(new UnitSpawnSystem());
             _ecsStartSystems.Add(new InitButtonSystem());
 
             _ecsStartSystems.Init();
@@ -48,6 +47,7 @@ namespace DeadSurvive
             _ecsUpdateSystems.Add(new ZoneDetectSystem());
             _ecsUpdateSystems.Add(new AttackSystem());
             _ecsUpdateSystems.Add(new HealthSystem());
+            _ecsUpdateSystems.Add(new SelfMovementSystem());
             
             _ecsUpdateSystems.Init();
         }

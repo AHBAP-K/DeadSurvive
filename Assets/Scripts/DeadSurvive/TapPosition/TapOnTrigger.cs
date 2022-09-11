@@ -20,7 +20,7 @@ namespace DeadSurvive.TapPosition
         {
             var ecsWorld = EcsSystems.GetWorld();
             
-            var movePool = ecsWorld.GetPool<MoveComponent>(); 
+            var movePool = ecsWorld.GetPool<MoveDestinationComponent>(); 
             var buttonsPool = ecsWorld.GetPool<ButtonComponent>();
             var unitPool = ecsWorld.GetPool<UnitComponent>();
             

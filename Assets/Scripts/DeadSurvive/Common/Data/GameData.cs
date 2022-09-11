@@ -11,22 +11,21 @@ namespace DeadSurvive.Common.Data
     [Serializable]
     public class GameData
     {
+        public UnitsDataHolder GetUnitSpawnData(UnitType unitType) => _unitSpawnData.FirstOrDefault(t => t.Type == unitType);
+
         public UnitData[] UnitData => _unitData;
         
         public GameObject ButtonPrefab => _buttonPrefab;
 
         public Transform ButtonSpawnPoint => _buttonSpawnPoint;
 
-        public UnitData[] EnemyData => _enemyData;
+        public List<UnitsDataHolder> UnitSpawnData => _unitSpawnData;
 
         [SerializeField, FoldoutGroup("Units")] 
-        private List<PositionDataHolder> _unitSpawnPoint;
+        private List<UnitsDataHolder> _unitSpawnData;
 
         [SerializeField, FoldoutGroup("Units")]
         private UnitData[] _unitData;
-        
-        [SerializeField, FoldoutGroup("Enemy")]
-        private UnitData[] _enemyData;
         
         [SerializeField, FoldoutGroup("UI")]
         private GameObject _buttonPrefab;
@@ -34,14 +33,5 @@ namespace DeadSurvive.Common.Data
         [SerializeField, FoldoutGroup("UI")]
         private Transform _buttonSpawnPoint;
 
-        public Vector3 GetUnitSpawnPosition(UnitType unitType)
-        {
-            foreach (var positionDataHolder in _unitSpawnPoint.Where(t => t.Type == unitType))
-            {
-                return positionDataHolder.GetTargetPosition();
-            }
-
-            return Vector3.zero;
-        }
     }
 }

@@ -11,7 +11,5 @@ namespace DeadSurvive.Unit
         public UnitType UnitType { get; set; }
         
         public Transform UnitTransform { get; set; }
-
-        public MoveData MoveData { get; set; }
     }
 }

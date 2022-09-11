@@ -340,23 +340,31 @@ MonoBehaviour:
       Entry: 8
       Data: 
   _gameData:
-    _unitSpawnPoint:
+    _unitSpawnData:
     - _unitType: 0
-      _targets:
+      _spawnUnit:
+        rid: 1997706210598191108
+      _spawnParents:
       - {fileID: 519123229}
       - {fileID: 1203249933}
     - _unitType: 1
-      _targets:
-      - {fileID: 296439398}
+      _spawnUnit:
+        rid: 1997706210598191109
+      _spawnParents:
       - {fileID: 1215474637}
+      - {fileID: 296439398}
     _unitData:
-    - {fileID: 11400000, guid: c268a17b36493476c853ea1ca815a24b, type: 2}
-    - {fileID: 11400000, guid: c268a17b36493476c853ea1ca815a24b, type: 2}
-    _enemyData:
-    - {fileID: 11400000, guid: 19e535e63d67b440eaad778a6a1f6d6c, type: 2}
-    - {fileID: 11400000, guid: 19e535e63d67b440eaad778a6a1f6d6c, type: 2}
+    - {fileID: 11400000, guid: 36d41073ab2be41bcbee94687bf2b638, type: 2}
+    - {fileID: 11400000, guid: 0371371354fd546f39669ad65f4b226f, type: 2}
     _buttonPrefab: {fileID: 5256106362732378705, guid: a25b119d8868b44058485f6ceec39392, type: 3}
     _buttonSpawnPoint: {fileID: 1546877531}
+  references:
+    version: 2
+    RefIds:
+    - rid: 1997706210598191108
+      type: {class: HeroSpawn, ns: DeadSurvive.Spawner, asm: Assembly-CSharp}
+    - rid: 1997706210598191109
+      type: {class: EnemySpawn, ns: DeadSurvive.Spawner, asm: Assembly-CSharp}
 --- !u!4 &77774390
 Transform:
   m_ObjectHideFlags: 0
@@ -433,6 +441,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
   m_HorizontalAxis: Horizontal
   m_VerticalAxis: Vertical
   m_SubmitButton: Submit
