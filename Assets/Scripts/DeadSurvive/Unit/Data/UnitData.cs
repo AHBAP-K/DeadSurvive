@@ -3,12 +3,13 @@ using DeadSurvive.Health;
 using DeadSurvive.Moving.Data;
 using DeadSurvive.Unit.Enum;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace DeadSurvive.Unit.Data
 {
     public abstract class UnitData : ScriptableObject
     {
-        public GameObject Prefab => _prefab;
+        public AssetReference Prefab => _prefab;
 
         public MoveData MoveData => _moveData;
         
@@ -19,7 +20,7 @@ namespace DeadSurvive.Unit.Data
         public UnitType Type => _unitType;
 
         [SerializeField] 
-        private GameObject _prefab;
+        private AssetReference _prefab;
 
         [SerializeField] 
         private MoveData _moveData;

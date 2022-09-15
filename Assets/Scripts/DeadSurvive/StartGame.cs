@@ -1,9 +1,12 @@
+using System;
 using System.Collections.Generic;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using DeadSurvive.Attack;
 using DeadSurvive.Common;
 using DeadSurvive.Common.Data;
 using DeadSurvive.Health;
-using DeadSurvive.HeroButton;
+using DeadSurvive.UnitButton;
 using DeadSurvive.Moving;
 using DeadSurvive.Spawner;
 using DeadSurvive.ZoneDetect;
@@ -25,10 +28,19 @@ namespace DeadSurvive
         private EcsSystems _ecsStartSystems;
         private EcsSystems _ecsUpdateSystems;
 
+        private CancellationTokenSource _cancellationTokenSource;
+
         private void Start()
         {
-            _ecsWorld = new EcsWorld();
+            StartAsync().Forget();
+        }
 
+        private async UniTaskVoid StartAsync()
+        {
+            _ecsWorld = new EcsWorld();
+            
+            _gameData.SetupPool();
+            
             _ecsStartSystems = new EcsSystems(_ecsWorld, _gameData);
 
             for (int i = 0; i < _ecsSystemHolders.Count; i++)
@@ -37,8 +49,7 @@ namespace DeadSurvive
             }
             
             _ecsStartSystems.Add(new UnitSpawnSystem());
-            _ecsStartSystems.Add(new InitButtonSystem());
-
+            
             _ecsStartSystems.Init();
 
             _ecsUpdateSystems = new EcsSystems(_ecsWorld, _gameData);
@@ -50,11 +61,25 @@ namespace DeadSurvive
             _ecsUpdateSystems.Add(new SelfMovementSystem());
             
             _ecsUpdateSystems.Init();
+
+            _cancellationTokenSource = new CancellationTokenSource();
+            
+            UpdateSystems(_cancellationTokenSource.Token).Forget();
+        }
+        
+        private async UniTaskVoid UpdateSystems(CancellationToken token)
+        {
+            while (!token.IsCancellationRequested)
+            {
+                _ecsUpdateSystems.Run();
+                await UniTask.DelayFrame(1, PlayerLoopTiming.Update, token);
+            }
         }
 
-        private void Update()
+        private void OnDestroy()
         {
-            _ecsUpdateSystems.Run();
+            _cancellationTokenSource.Cancel();
+            _cancellationTokenSource.Dispose();
         }
     }
 }

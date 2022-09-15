@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using DeadSurvive.Common.Data;
 using Leopotam.EcsLite;
 
@@ -12,13 +13,13 @@ namespace DeadSurvive.Spawner
 
             foreach (var unitsData in data.UnitSpawnData)
             {
-                unitsData.SpawnUnit.Setup(world);
+                unitsData.SpawnUnit.Setup(systems);
             }
             
             foreach (var unitData in data.UnitData)
             {
                 var spawnData = data.GetUnitSpawnData(unitData.Type);
-                var entity = spawnData.SpawnUnit.Spawn(unitData, spawnData.GetTargetPosition());
+                spawnData.SpawnUnit.Spawn(unitData, spawnData.GetTargetPosition()).Forget();
             }        
         }
     }

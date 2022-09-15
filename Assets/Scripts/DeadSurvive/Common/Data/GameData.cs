@@ -5,17 +5,20 @@ using DeadSurvive.Unit.Data;
 using DeadSurvive.Unit.Enum;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace DeadSurvive.Common.Data
 {
     [Serializable]
     public class GameData
     {
+        public Pool.Pool Pool { get; private set; }
+        
         public UnitsDataHolder GetUnitSpawnData(UnitType unitType) => _unitSpawnData.FirstOrDefault(t => t.Type == unitType);
 
         public UnitData[] UnitData => _unitData;
         
-        public GameObject ButtonPrefab => _buttonPrefab;
+        public AssetReference ButtonPrefab => _buttonPrefab;
 
         public Transform ButtonSpawnPoint => _buttonSpawnPoint;
 
@@ -28,10 +31,14 @@ namespace DeadSurvive.Common.Data
         private UnitData[] _unitData;
         
         [SerializeField, FoldoutGroup("UI")]
-        private GameObject _buttonPrefab;
+        private AssetReference _buttonPrefab;
         
         [SerializeField, FoldoutGroup("UI")]
         private Transform _buttonSpawnPoint;
 
+        public void SetupPool()
+        {
+            Pool = new Pool.Pool();
+        }
     }
 }

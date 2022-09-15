@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45e2746d2c1044af9b8b6f11409c5f2d, type: 3}
   m_Name: EnemyUnitData
   m_EditorClassIdentifier: 
-  _prefab: {fileID: 1211173956614281148, guid: 8a3f148af21aa40669f023090e29bd0c, type: 3}
+  _prefab:
+    m_AssetGUID: 8a3f148af21aa40669f023090e29bd0c
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
   _moveData: {fileID: 11400000, guid: 8ea4d57252d5f40118a663af2f9d3842, type: 2}
   _healthData: {fileID: 11400000, guid: 9b5c1a76150ba4726a1b0c0a0e5b2906, type: 2}
   _attackData: {fileID: 11400000, guid: 7abe4f70bf6cf4c6086c889c098a6fd3, type: 2}

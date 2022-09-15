@@ -356,7 +356,11 @@ MonoBehaviour:
     _unitData:
     - {fileID: 11400000, guid: 36d41073ab2be41bcbee94687bf2b638, type: 2}
     - {fileID: 11400000, guid: 0371371354fd546f39669ad65f4b226f, type: 2}
-    _buttonPrefab: {fileID: 5256106362732378705, guid: a25b119d8868b44058485f6ceec39392, type: 3}
+    _buttonPrefab:
+      m_AssetGUID: a25b119d8868b44058485f6ceec39392
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
     _buttonSpawnPoint: {fileID: 1546877531}
   references:
     version: 2

@@ -1,9 +1,20 @@
+using System.Collections.Generic;
 using System.Linq;
+using Leopotam.EcsLite;
+using UnityEngine;
 
 namespace DeadSurvive.ZoneDetect
 {
     public static class DetectExtensions
     {
+        public static void AddDetectComponent(this EcsWorld world, Transform transform, int entity)
+        {
+            var detectPool = world.GetPool<DetectComponent>();
+            ref var detectComponent = ref detectPool.Add(entity);
+            detectComponent.ObjectTransform = transform;
+            detectComponent.DetectedEntities = new List<DetectedEntity>(5);
+        }
+        
         public static bool ContainsEntity(this ref DetectComponent detectComponent, int entity)
         {
             return detectComponent.DetectedEntities.Any(detectedEntity => detectedEntity.Entity == entity);

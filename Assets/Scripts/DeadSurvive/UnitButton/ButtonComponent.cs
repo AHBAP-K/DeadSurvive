@@ -1,4 +1,4 @@
-namespace DeadSurvive.HeroButton
+namespace DeadSurvive.UnitButton
 {
     public struct ButtonComponent
     {

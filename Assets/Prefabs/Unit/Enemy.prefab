@@ -28,9 +28,10 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1211173956614503388}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &299861738747169799
 SpriteRenderer:
@@ -43,6 +44,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 1
@@ -85,7 +87,7 @@ SpriteRenderer:
   m_SpriteSortPoint: 0
 --- !u!95 &299861738719218535
 Animator:
-  serializedVersion: 3
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -98,6 +100,7 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -119,11 +122,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 446652, guid: 52cc56ade5622469e8ab7c5315d224b8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 3.4623213
       objectReference: {fileID: 0}
     - target: {fileID: 446652, guid: 52cc56ade5622469e8ab7c5315d224b8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 2.48855
       objectReference: {fileID: 0}
     - target: {fileID: 446652, guid: 52cc56ade5622469e8ab7c5315d224b8, type: 3}
       propertyPath: m_LocalPosition.z
