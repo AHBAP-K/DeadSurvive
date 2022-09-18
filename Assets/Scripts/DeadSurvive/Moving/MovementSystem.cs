@@ -35,7 +35,7 @@ namespace DeadSurvive.Moving
             unitComponent.UnitState = UnitState.Move;
             
             var cancellationToken = new CancellationTokenSource();
-            var dummy = MoveObject(world, unitEntity, cancellationToken.Token);
+            MoveObject(world, unitEntity, cancellationToken.Token).Forget();
             
             _moveCancellationTokens.Add(unitEntity, cancellationToken);
             poolMove.Del(unitEntity);

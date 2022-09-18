@@ -5,6 +5,7 @@ using Cysharp.Threading.Tasks;
 using DeadSurvive.Attack;
 using DeadSurvive.Common;
 using DeadSurvive.Common.Data;
+using DeadSurvive.Death;
 using DeadSurvive.Health;
 using DeadSurvive.UnitButton;
 using DeadSurvive.Moving;
@@ -32,11 +33,6 @@ namespace DeadSurvive
 
         private void Start()
         {
-            StartAsync().Forget();
-        }
-
-        private async UniTaskVoid StartAsync()
-        {
             _ecsWorld = new EcsWorld();
             
             _gameData.SetupPool();
@@ -56,9 +52,11 @@ namespace DeadSurvive
             
             _ecsUpdateSystems.Add(new MovementSystem());
             _ecsUpdateSystems.Add(new ZoneDetectSystem());
+            _ecsUpdateSystems.Add(new AttackStartSystem());
             _ecsUpdateSystems.Add(new AttackSystem());
             _ecsUpdateSystems.Add(new HealthSystem());
             _ecsUpdateSystems.Add(new SelfMovementSystem());
+            _ecsUpdateSystems.Add(new DeathSystem());
             
             _ecsUpdateSystems.Init();
 

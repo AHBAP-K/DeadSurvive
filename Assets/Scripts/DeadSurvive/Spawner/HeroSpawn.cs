@@ -32,7 +32,6 @@ namespace DeadSurvive.Spawner
             }
 
             var entity = await SpawnUnit(heroUnitData, position);
-            EcsWorld.AddButtonComponent(entity);
             _buttonSpawner.SpawnButton(entity, _gameData.ButtonPrefab, _gameData.ButtonSpawnPoint).Forget();
             return entity;
         }

@@ -21,7 +21,7 @@ namespace DeadSurvive.UnitButton
         {
             void SetSelected(int targetEntity)
             {
-                var buttonPoll = _ecsWorld.GetPool<ButtonComponent>();
+                var buttonPoll =  _ecsWorld.GetPool<ButtonComponent>();
                 var filter = _ecsWorld.Filter<ButtonComponent>().End();
             
                 foreach (var entityButton in filter)
@@ -33,12 +33,21 @@ namespace DeadSurvive.UnitButton
             
             var button = await _pool.SpawnObject(assetReference: buttonPrefab, parent:parent);
             var buttonUnityBehaviour = button.GetComponent<Button>();
-            
+
+            AddComponent(entity, buttonUnityBehaviour);
+
             buttonUnityBehaviour.onClick.RemoveAllListeners();
             buttonUnityBehaviour.onClick.AddListener(() =>
             {
                 SetSelected(entity);
             });
+        }
+        
+        private void AddComponent(int entity, Button buttonUnityBehaviour)
+        {
+            var buttonComponent = _ecsWorld.GetPool<ButtonComponent>();
+            ref var buttonTag = ref buttonComponent.Add(entity);
+            buttonTag.Button = buttonUnityBehaviour;
         }
     }
 }

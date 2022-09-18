@@ -22,7 +22,7 @@ namespace DeadSurvive.Health
                 ref var healthChangeComponent = ref healthChangePool.Get(entity);
                 ref var healthViewComponent = ref healthViewPool.Get(entity);
                 
-                healthComponent.CurrentHealth = Mathf.Clamp(healthComponent.CurrentHealth + healthChangeComponent.Points, 0, healthComponent.MaxHealth) ;
+                healthComponent.CurrentHealth = Mathf.Clamp(healthComponent.CurrentHealth + healthChangeComponent.Points, -0.1f, healthComponent.MaxHealth);
                 
                 healthChangePool.Del(entity);
                 

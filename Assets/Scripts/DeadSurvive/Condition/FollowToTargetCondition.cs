@@ -1,7 +1,6 @@
 using DeadSurvive.Attack;
 using DeadSurvive.Condition.Interfaces;
 using DeadSurvive.Unit;
-using DeadSurvive.ZoneDetect;
 using Leopotam.EcsLite;
 using UnityEngine;
 
@@ -11,26 +10,29 @@ namespace DeadSurvive.Condition
     {
         private readonly EcsWorld _ecsWorld;
 
-        private readonly int _entity;
-        private readonly int _target;
-
+        private readonly EcsPackedEntity _entityUnit;
+        private readonly EcsPackedEntity _entityTarget;
+        
         public FollowToTargetCondition(EcsWorld ecsWorld, int entity, int target)
         {
             _ecsWorld = ecsWorld;
-            _entity = entity;
-            _target = target;
+            _entityUnit = ecsWorld.PackEntity(entity);
+            _entityTarget = ecsWorld.PackEntity(target);
         }
         
         public bool Check()
         {
+            if (!_entityUnit.Unpack(_ecsWorld, out var entityUnit) || !_entityTarget.Unpack(_ecsWorld, out var entityTarget))
+            {
+                return false;
+            }
+            
             var unitPool = _ecsWorld.GetPool<UnitComponent>();
-            var detectPool = _ecsWorld.GetPool<DetectComponent>();
             var attackPool = _ecsWorld.GetPool<AttackComponent>();
             
-            ref var unitComponent = ref unitPool.Get(_entity);
-            ref var attackComponent = ref attackPool.Get(_entity);
-            ref var unitDetectComponent = ref detectPool.Get(_entity);
-            ref var targetUnitComponent = ref unitPool.Get(_target);
+            ref var unitComponent = ref unitPool.Get(entityUnit);
+            ref var attackComponent = ref attackPool.Get(entityUnit);
+            ref var targetUnitComponent = ref unitPool.Get(entityTarget);
 
             var distance = Vector2.Distance(unitComponent.UnitTransform.position, targetUnitComponent.UnitTransform.position);
 
