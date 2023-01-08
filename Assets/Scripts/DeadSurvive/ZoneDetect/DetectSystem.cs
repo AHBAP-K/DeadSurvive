@@ -22,23 +22,18 @@ namespace DeadSurvive.ZoneDetect
                         continue;
                     }
                     
+                    var entityIsContains = detectComponent.ContainsEntity(world, detectedEntity);
                     ref var detected = ref detectPool.Get(detectedEntity);
-                    var entityIsContains = detectComponent.ContainsEntity(detectedEntity);
                     var distance = Vector2.Distance(detectComponent.ObjectTransform.position, detected.ObjectTransform.position);
-
-                    if (!detectPool.Has(detectedEntity) && entityIsContains)
-                    {
-                        detectComponent.RemoveDetectedEntity(detectedEntity);
-                        continue;
-                    }
-
+                    
                     if (!entityIsContains)
                     {
-                        detectComponent.AddDetectedEntity(detectedEntity, distance);
+                        var packedEntity = world.PackEntity(detectedEntity);
+                        detectComponent.AddDetectedEntity(packedEntity, distance);
                     }
                     else
                     {
-                        detectComponent.UpdateDistanceDetectedEntity(detectedEntity, distance);
+                        detectComponent.UpdateDistanceDetectedEntity(world, detectedEntity, distance);
                     }
                 }
             }

@@ -1,5 +1,3 @@
-using DeadSurvive.Moving.Data;
-
 namespace DeadSurvive.Moving
 {
     public struct MoveComponent

@@ -4,23 +4,32 @@ using Leopotam.EcsLite;
 
 namespace DeadSurvive.Spawner
 {
-    public class UnitSpawnSystem : IEcsInitSystem
+    public class UnitSpawnSystem : IEcsInitSystem, IEcsRunSystem
     {
         public void Init(IEcsSystems systems)
         {
-            var world = systems.GetWorld();
             var data = systems.GetShared<GameData>();
 
             foreach (var unitsData in data.UnitSpawnData)
             {
                 unitsData.SpawnUnit.Setup(systems);
             }
-            
-            foreach (var unitData in data.UnitData)
+        }
+        
+        public void Run(IEcsSystems systems)
+        {
+            var world = systems.GetWorld();
+            var data = systems.GetShared<GameData>();
+            var filterUnit = world.Filter<SpawnComponent>().End();
+            var spawnPool = world.GetPool<SpawnComponent>();
+
+            foreach (var unitEntity in filterUnit)
             {
-                var spawnData = data.GetUnitSpawnData(unitData.Type);
-                spawnData.SpawnUnit.Spawn(unitData, spawnData.GetTargetPosition()).Forget();
-            }        
+                ref var spawnComponent = ref spawnPool.Get(unitEntity);
+                var spawnData = data.GetUnitSpawnData(spawnComponent.UnitData.Type);
+                spawnData.SpawnUnit.Spawn(spawnComponent.UnitData, spawnComponent.SpawnPosition).Forget();
+                spawnPool.Del(unitEntity);
+            }            
         }
     }
 }

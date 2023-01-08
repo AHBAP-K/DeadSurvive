@@ -44,7 +44,7 @@ namespace DeadSurvive.Death
             }
             
             ref var buttonComponent = ref buttonPool.Get(entity);
-            var buttonGameObject = buttonComponent.Button.gameObject;
+            var buttonGameObject = buttonComponent.ButtonView.gameObject;
             pool.ReturnObject(buttonGameObject);
         }
         

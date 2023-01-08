@@ -1,3 +1,4 @@
+using System;
 using DeadSurvive.Condition;
 using DeadSurvive.Moving;
 using DeadSurvive.Moving.Data;
@@ -29,13 +30,15 @@ namespace DeadSurvive.Attack
                     continue;
                 }
 
-                foreach (var detectedEntity in detectComponent.DetectedEntities)
-                {
-                    var detectedUnitComponent = unitPool.Get(detectedEntity.Entity);
+                var detectedEntities = detectComponent.TryGetDetectEntities(world, 3f);
 
-                    if (unitComponent.UnitType != detectedUnitComponent.UnitType && detectedEntity.Distance < 3f)
+                foreach (var target in detectedEntities)
+                {
+                    var detectedUnitComponent = unitPool.Get(target);
+
+                    if (unitComponent.UnitType != detectedUnitComponent.UnitType)
                     {
-                        AttackUnit(world, entity, detectedEntity.Entity);
+                        AttackUnit(world, entity, target);
                     }
                 }
             }

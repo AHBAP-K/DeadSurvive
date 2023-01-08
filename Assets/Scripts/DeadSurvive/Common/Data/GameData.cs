@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DeadSurvive.Spawner;
 using DeadSurvive.Unit.Data;
 using DeadSurvive.Unit.Enum;
 using Sirenix.OdinInspector;
@@ -15,6 +16,8 @@ namespace DeadSurvive.Common.Data
         public Pool.Pool Pool { get; private set; }
         
         public UnitsDataHolder GetUnitSpawnData(UnitType unitType) => _unitSpawnData.FirstOrDefault(t => t.Type == unitType);
+        
+        public UnitData GetUnitData(UnitType unitType) => _unitData.FirstOrDefault(t => t.Type == unitType);
 
         public UnitData[] UnitData => _unitData;
         
@@ -24,11 +27,16 @@ namespace DeadSurvive.Common.Data
 
         public List<UnitsDataHolder> UnitSpawnData => _unitSpawnData;
 
+        public EnemySpawnData EnemySpawnData => _enemySpawnData;
+
         [SerializeField, FoldoutGroup("Units")] 
         private List<UnitsDataHolder> _unitSpawnData;
 
         [SerializeField, FoldoutGroup("Units")]
         private UnitData[] _unitData;
+        
+        [SerializeField, FoldoutGroup("Units")]
+        private EnemySpawnData _enemySpawnData;
         
         [SerializeField, FoldoutGroup("UI")]
         private AssetReference _buttonPrefab;

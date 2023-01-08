@@ -10,7 +10,7 @@ namespace DeadSurvive.Spawner
 {
     public class HeroSpawn : UnitSpawner, ISpawnUnit
     {
-        private ButtonSpawner _buttonSpawner;
+        private SelectButtonSpawner _selectButtonSpawner;
         private GameData _gameData;
         
         public void Setup(IEcsSystems systems)
@@ -20,8 +20,8 @@ namespace DeadSurvive.Spawner
             EcsWorld = systems.GetWorld();
             Pool = _gameData.Pool;
 
-            _buttonSpawner = new ButtonSpawner();
-            _buttonSpawner.Setup(EcsWorld, Pool);
+            _selectButtonSpawner = new SelectButtonSpawner();
+            _selectButtonSpawner.Setup(EcsWorld, Pool);
         }
 
         public async UniTask<int> Spawn<T>(T data, Vector3 position) where T : UnitData
@@ -32,7 +32,7 @@ namespace DeadSurvive.Spawner
             }
 
             var entity = await SpawnUnit(heroUnitData, position);
-            _buttonSpawner.SpawnButton(entity, _gameData.ButtonPrefab, _gameData.ButtonSpawnPoint).Forget();
+            _selectButtonSpawner.SpawnButton(entity, _gameData.ButtonPrefab, _gameData.ButtonSpawnPoint).Forget();
             return entity;
         }
     }

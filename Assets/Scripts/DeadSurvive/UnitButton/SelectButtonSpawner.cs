@@ -2,11 +2,10 @@ using Cysharp.Threading.Tasks;
 using Leopotam.EcsLite;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.UI;
 
 namespace DeadSurvive.UnitButton
 {
-    public class ButtonSpawner
+    public class SelectButtonSpawner
     {
         private EcsWorld _ecsWorld;
         private Pool.Pool _pool;
@@ -31,23 +30,24 @@ namespace DeadSurvive.UnitButton
                 }
             }
             
-            var button = await _pool.SpawnObject(assetReference: buttonPrefab, parent:parent);
-            var buttonUnityBehaviour = button.GetComponent<Button>();
+            var buttonObject = await _pool.SpawnObject(assetReference: buttonPrefab, parent:parent);
+            var buttonUnityBehaviour = buttonObject.GetComponent<ButtonView>();
 
             AddComponent(entity, buttonUnityBehaviour);
 
-            buttonUnityBehaviour.onClick.RemoveAllListeners();
-            buttonUnityBehaviour.onClick.AddListener(() =>
+            buttonUnityBehaviour.Text.text = $"Unit {entity}";
+            buttonUnityBehaviour.Button.onClick.RemoveAllListeners();
+            buttonUnityBehaviour.Button.onClick.AddListener(() =>
             {
                 SetSelected(entity);
             });
         }
         
-        private void AddComponent(int entity, Button buttonUnityBehaviour)
+        private void AddComponent(int entity, ButtonView buttonUnityBehaviour)
         {
-            var buttonComponent = _ecsWorld.GetPool<ButtonComponent>();
-            ref var buttonTag = ref buttonComponent.Add(entity);
-            buttonTag.Button = buttonUnityBehaviour;
+            var buttonPool = _ecsWorld.GetPool<ButtonComponent>();
+            ref var buttonComponent = ref buttonPool.Add(entity);
+            buttonComponent.ButtonView = buttonUnityBehaviour;
         }
     }
 }

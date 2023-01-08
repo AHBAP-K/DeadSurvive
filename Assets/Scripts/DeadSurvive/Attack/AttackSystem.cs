@@ -37,7 +37,7 @@ namespace DeadSurvive.Attack
 
                 var distance =  Vector2.Distance(unitComponent.UnitTransform.position, unitTargetComponent.UnitTransform.position);
                 var canAttack = unitComponent.UnitState == UnitState.Attack &&
-                                detectComponent.ContainsEntity(entityTarget) &&
+                                detectComponent.ContainsEntity(world, entityTarget) &&
                                 distance < attackComponent.AttackRange;
 
                 if (!canAttack)

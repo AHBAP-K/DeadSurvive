@@ -7,6 +7,35 @@ namespace DeadSurvive.ZoneDetect
 {
     public static class DetectExtensions
     {
+        public static List<int> TryGetDetectEntities(this ref DetectComponent detectComponent, EcsWorld ecsWorld, float distance)
+        {
+            var detectedEntities = new List<int>();
+            var removableIndexItem = -1;
+
+            for (var i = 0; i < detectComponent.DetectedEntities.Count; i++)
+            {
+                var currentDetectedEntity = detectComponent.DetectedEntities[i];
+                
+                if (!currentDetectedEntity.PackedEntity.Unpack(ecsWorld, out var entity))
+                {
+                    removableIndexItem = i;
+                    continue;
+                }
+                
+                if (currentDetectedEntity.Distance < distance)
+                {
+                    detectedEntities.Add(entity);
+                }
+            }
+
+            if (removableIndexItem > -1)
+            {
+                detectComponent.DetectedEntities.RemoveAt(removableIndexItem);
+            }
+
+            return detectedEntities;
+        }
+        
         public static void AddDetectComponent(this EcsWorld world, Transform transform, int entity)
         {
             var detectPool = world.GetPool<DetectComponent>();
@@ -15,37 +44,33 @@ namespace DeadSurvive.ZoneDetect
             detectComponent.DetectedEntities = new List<DetectedEntity>(5);
         }
         
-        public static bool ContainsEntity(this ref DetectComponent detectComponent, int entity)
+        public static bool ContainsEntity(this ref DetectComponent detectComponent, EcsWorld ecsWorld, int targetEntity)
         {
-            return detectComponent.DetectedEntities.Any(detectedEntity => detectedEntity.Entity == entity);
-        }
-        
-        public static void AddDetectedEntity(this ref DetectComponent detectComponent, int entity, float distance)
-        {
-            detectComponent.DetectedEntities.Add(new DetectedEntity(entity, distance));
-        }
-        
-        public static void RemoveDetectedEntity(this ref DetectComponent detectComponent, int entity)
-        {
-            for (var index = 0; index < detectComponent.DetectedEntities.Count; index++)
+            foreach (var detectedEntity in detectComponent.DetectedEntities)
             {
-                if (detectComponent.DetectedEntities[index].Entity == entity)
+                if (detectedEntity.PackedEntity.Unpack(ecsWorld, out var entity) && entity == targetEntity)
                 {
-                    detectComponent.DetectedEntities.Remove(detectComponent.DetectedEntities[index]);
-                    return;
+                    return true;
                 }
             }
+
+            return false;
         }
         
-        public static void UpdateDistanceDetectedEntity(this ref DetectComponent detectComponent, int entity, float distance)
+        public static void AddDetectedEntity(this ref DetectComponent detectComponent, EcsPackedEntity packedEntity, float distance)
+        {
+            detectComponent.DetectedEntities.Add(new DetectedEntity(packedEntity, distance));
+        }
+
+        public static void UpdateDistanceDetectedEntity(this ref DetectComponent detectComponent, EcsWorld ecsWorld, int targetEntity, float distance)
         {
             for (var i = 0; i < detectComponent.DetectedEntities.Count; i++)
             {
-                if (detectComponent.DetectedEntities[i].Entity != entity)
+                if (!detectComponent.DetectedEntities[i].PackedEntity.Unpack(ecsWorld, out var entity) || entity != targetEntity)
                 {
                     continue;
                 }
-
+                
                 var detectedEntity = detectComponent.DetectedEntities[i];
                 detectedEntity.Distance = distance;
                 detectComponent.DetectedEntities[i] = detectedEntity;

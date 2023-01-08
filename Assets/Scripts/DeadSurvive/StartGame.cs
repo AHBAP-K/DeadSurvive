@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
@@ -7,9 +6,9 @@ using DeadSurvive.Common;
 using DeadSurvive.Common.Data;
 using DeadSurvive.Death;
 using DeadSurvive.Health;
-using DeadSurvive.UnitButton;
 using DeadSurvive.Moving;
 using DeadSurvive.Spawner;
+using DeadSurvive.UnitButton;
 using DeadSurvive.ZoneDetect;
 using Leopotam.EcsLite;
 using Sirenix.OdinInspector;
@@ -44,12 +43,15 @@ namespace DeadSurvive
                 _ecsSystemHolders[i].EcsSystems = _ecsStartSystems;
             }
             
+            _ecsStartSystems.Add(new UnitSpawnButtonSpawner());
             _ecsStartSystems.Add(new UnitSpawnSystem());
-            
+
             _ecsStartSystems.Init();
 
             _ecsUpdateSystems = new EcsSystems(_ecsWorld, _gameData);
             
+            _ecsUpdateSystems.Add(new UnitSpawnSystem());
+            _ecsUpdateSystems.Add(new EnemySpawnSystem());
             _ecsUpdateSystems.Add(new MovementSystem());
             _ecsUpdateSystems.Add(new ZoneDetectSystem());
             _ecsUpdateSystems.Add(new AttackStartSystem());
