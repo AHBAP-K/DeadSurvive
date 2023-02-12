@@ -8,7 +8,7 @@ namespace DeadSurvive.Health
     {
         public static void AddHealthComponent(this EcsWorld world, HealthData healthData, int entity, Transform parent)
         {
-            var unitObject = Object.Instantiate(healthData.healthBarPrefab, parent);
+            var unitObject = Object.Instantiate(healthData.HealthBarPrefab, parent);
             var healthBarView = unitObject.GetComponent<HealthBarView>();
             
             var healthPool = world.GetPool<HealthComponent>();
@@ -19,7 +19,7 @@ namespace DeadSurvive.Health
 
             healthBarViewComponent.Value = healthBarView;
 
-            unitObject.transform.localPosition = healthData.position;
+            unitObject.transform.localPosition = healthData.Position;
             
             healthComponent.CurrentHealth = healthData.MaxHealth;
             healthComponent.MaxHealth = healthData.MaxHealth;

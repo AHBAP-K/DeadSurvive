@@ -1,4 +1,4 @@
-using System;
+using DeadSurvive.Common;
 using DeadSurvive.Condition;
 using DeadSurvive.Moving;
 using DeadSurvive.Moving.Data;
@@ -17,6 +17,7 @@ namespace DeadSurvive.Attack
             var world = systems.GetWorld();
             var unitPool = world.GetPool<UnitComponent>();
             var detectPool = world.GetPool<DetectComponent>();
+            var attackPool = world.GetPool<AttackComponent>();
 
             var filter = world.Filter<DetectComponent>().Inc<UnitComponent>().End();
 
@@ -24,13 +25,14 @@ namespace DeadSurvive.Attack
             {
                 ref var unitComponent = ref unitPool.Get(entity);
                 ref var detectComponent = ref detectPool.Get(entity);
+                ref var attackComponent = ref attackPool.Get(entity);
 
                 if (unitComponent.UnitState is UnitState.Move or UnitState.Attack or UnitState.Dead)
                 {
                     continue;
                 }
 
-                var detectedEntities = detectComponent.TryGetDetectEntities(world, 3f);
+                var detectedEntities = detectComponent.TryGetDetectEntities(world, attackComponent.AttackDetectRange);
 
                 foreach (var target in detectedEntities)
                 {
@@ -49,17 +51,12 @@ namespace DeadSurvive.Attack
             Debug.Log($"[{nameof(AttackSystem)}] {nameof(AttackUnit)} Entity: {entityUnit}, Target: {entityTarget}");
             
             var positionPool = ecsWorld.GetPool<MoveDestinationComponent>();
-            var unitPool = ecsWorld.GetPool<UnitComponent>();
-            
-            if (positionPool.Has(entityUnit))
-            {
-                positionPool.Del(entityUnit);
-            }
+            var transformPool = ecsWorld.GetPool<UnityObject<Transform>>();
 
-            ref var targetPositionComponent = ref positionPool.Add(entityUnit);
-            ref var targetUnit = ref unitPool.Get(entityTarget);
+            ref var targetPositionComponent = ref positionPool.GetOrAdd(entityUnit);
+            ref var transformComponent = ref transformPool.Get(entityTarget);
             
-            var transformPositionHolder = new TransformPositionHolder(targetUnit.UnitTransform);
+            var transformPositionHolder = new TransformPositionHolder(transformComponent.Value);
             var followCondition = new FollowToTargetCondition(ecsWorld, entityUnit, entityTarget);
             
             targetPositionComponent.Configure(transformPositionHolder, followCondition);

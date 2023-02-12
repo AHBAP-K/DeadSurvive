@@ -1,6 +1,4 @@
-using DeadSurvive.Moving.Data;
 using DeadSurvive.Unit.Enum;
-using UnityEngine;
 
 namespace DeadSurvive.Unit
 {
@@ -10,6 +8,5 @@ namespace DeadSurvive.Unit
         
         public UnitType UnitType { get; set; }
         
-        public Transform UnitTransform { get; set; }
     }
 }

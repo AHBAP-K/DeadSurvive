@@ -1,6 +1,4 @@
-using System.Collections.Generic;
-using System.Threading;
-using Cysharp.Threading.Tasks;
+using DeadSurvive.Common;
 using DeadSurvive.Unit;
 using DeadSurvive.Unit.Enum;
 using Leopotam.EcsLite;
@@ -10,8 +8,6 @@ namespace DeadSurvive.Moving
 {
     public class MovementSystem : IEcsRunSystem
     {
-        private readonly Dictionary<int, CancellationTokenSource> _moveCancellationTokens = new();
-        
         public void Run(IEcsSystems systems)
         {
             var world = systems.GetWorld();
@@ -19,79 +15,47 @@ namespace DeadSurvive.Moving
 
             foreach (var unitEntity in filterUnit)
             {
-                MoveUnit(world, unitEntity);
+                MoveObject(world, unitEntity);
             }
         }
-        
-        private void MoveUnit(EcsWorld world, int unitEntity)
-        {
-            var poolUnit = world.GetPool<UnitComponent>();
-            var poolMove = world.GetPool<MoveDestinationComponent>();
 
-            DisposeMoving(unitEntity);
-            
-            ref var unitComponent = ref poolUnit.Get(unitEntity);
-            
-            unitComponent.UnitState = UnitState.Move;
-            
-            var cancellationToken = new CancellationTokenSource();
-            MoveObject(world, unitEntity, cancellationToken.Token).Forget();
-            
-            _moveCancellationTokens.Add(unitEntity, cancellationToken);
-            poolMove.Del(unitEntity);
-        }
-
-        private async UniTask MoveObject(EcsWorld world, int unitEntity, CancellationToken token)
+        private void MoveObject(EcsWorld world, int unitEntity)
         {
             Debug.Log($"[{nameof(MovementSystem)}] Entity: {unitEntity}, {nameof(MoveObject)}");
             
-            var unitComponent = world.GetPool<UnitComponent>().Get(unitEntity);
-            var moveComponent = world.GetPool<MoveComponent>().Get(unitEntity);
-            var moveDestinationComponent = world.GetPool<MoveDestinationComponent>().Get(unitEntity);
+            ref var moveComponent = ref world.GetPool<MoveComponent>().Get(unitEntity);
+            ref var transformComponent = ref world.GetPool<UnityObject<Transform>>().Get(unitEntity);
+            ref var moveDestinationComponent = ref world.GetPool<MoveDestinationComponent>().Get(unitEntity);
+            ref var unitComponent = ref world.GetPool<UnitComponent>().Get(unitEntity);
+            
+            unitComponent.UnitState = UnitState.Move;
 
-            var unitTransform = unitComponent.UnitTransform;
-
-            while (moveDestinationComponent.Condition.Check())
+            if (moveDestinationComponent.Condition.Check())
             {
                 var speed = moveComponent.Speed * Time.deltaTime;
-                var newPosition = Vector2.MoveTowards(unitTransform.position, moveDestinationComponent.PositionHolder.Position, speed);
+                var newPosition = Vector2.MoveTowards(transformComponent.Value.position, moveDestinationComponent.PositionHolder.Position, speed);
                 
-                unitTransform.position = newPosition;
-
-                await UniTask.WaitForEndOfFrame(token).SuppressCancellationThrow();
+                transformComponent.Value.position = newPosition;
                 
-                if (token.IsCancellationRequested)
-                {
-                    return;
-                }
+                return;
             }
 
             MovementComplete(world, unitEntity);
-            moveDestinationComponent.ReachedTarget?.Invoke();
         }
         
         private void MovementComplete(EcsWorld ecsWorld, int entity)
         {
             Debug.Log($"[{nameof(MovementSystem)}] Entity: {entity}, {nameof(MovementComplete)}");
             
+            var moveDestinationPool = ecsWorld.GetPool<MoveDestinationComponent>();
+
+            ref var moveDestinationComponent = ref moveDestinationPool.Get(entity);
             ref var unitComponent = ref ecsWorld.GetPool<UnitComponent>().Get(entity);
+            
             unitComponent.UnitState = UnitState.Stay;
 
-            DisposeMoving(entity);
-        }
-        
-        private void DisposeMoving(int entity)
-        {
-            if (!_moveCancellationTokens.ContainsKey(entity))
-            {
-                return;
-            }
-            
-            Debug.Log($"[{nameof(MovementSystem)}] Entity: {entity}, {nameof(DisposeMoving)}");
-
-            _moveCancellationTokens[entity].Cancel();
-            _moveCancellationTokens[entity].Dispose();
-            _moveCancellationTokens.Remove(entity);
+            moveDestinationComponent.ReachedTarget?.Invoke();
+            moveDestinationPool.Del(entity);
         }
     }
 }

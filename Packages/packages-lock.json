@@ -12,7 +12,7 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "73efbfd9e6dd926f1350c248e3ce1350bf8b7ccc"
+      "hash": "b2b201084462b0d0891373a0649b7cefbc4ca3ea"
     },
     "com.leopotam.ecslite.unityeditor": {
       "version": "https://github.com/Leopotam/ecslite-unityeditor.git",
@@ -140,7 +140,7 @@
       }
     },
     "com.unity.ide.rider": {
-      "version": "3.0.16",
+      "version": "3.0.18",
       "depth": 0,
       "source": "registry",
       "dependencies": {

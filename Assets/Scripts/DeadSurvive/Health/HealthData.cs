@@ -7,9 +7,9 @@ namespace DeadSurvive.Health
     {
         public float MaxHealth => _maxHealth;
 
-        public GameObject healthBarPrefab => _healthBarPrefab;
+        public GameObject HealthBarPrefab => _healthBarPrefab;
 
-        public Vector3 position => _position;
+        public Vector3 Position => _position;
 
         [SerializeField] 
         private float _maxHealth;

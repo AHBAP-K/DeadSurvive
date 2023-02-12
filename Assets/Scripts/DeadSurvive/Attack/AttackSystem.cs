@@ -1,3 +1,4 @@
+using DeadSurvive.Common;
 using DeadSurvive.Health;
 using DeadSurvive.Unit;
 using DeadSurvive.Unit.Enum;
@@ -13,48 +14,59 @@ namespace DeadSurvive.Attack
         {
             var world = systems.GetWorld();
 
-            var unitPool = world.GetPool<UnitComponent>();
-            var detectPool = world.GetPool<DetectComponent>();
-            var combatPool = world.GetPool<CombatComponent>();
-            var attackPool = world.GetPool<AttackComponent>();
-
             var filter = world.Filter<CombatComponent>().End();
 
             foreach (var entity in filter)
             {
-                ref var combatComponent = ref combatPool.Get(entity);
-                ref var unitComponent = ref unitPool.Get(entity);
-
-                if (!combatComponent.EntityTarget.Unpack(world, out var entityTarget))
-                {
-                    ResetUnit(world, entity);
-                    continue;
-                }
-                
-                ref var unitTargetComponent = ref unitPool.Get(entityTarget);
-                ref var detectComponent = ref detectPool.Get(entity);
-                ref var attackComponent = ref attackPool.Get(entity);
-
-                var distance =  Vector2.Distance(unitComponent.UnitTransform.position, unitTargetComponent.UnitTransform.position);
-                var canAttack = unitComponent.UnitState == UnitState.Attack &&
-                                detectComponent.ContainsEntity(world, entityTarget) &&
-                                distance < attackComponent.AttackRange;
-
-                if (!canAttack)
-                {
-                    ResetUnit(world, entity);
-                    continue;
-                }
-
-                attackComponent.Delay -= Time.deltaTime;
-
-                if (attackComponent.Delay < 0)
-                {
-                    ref var healthChangeComponent = ref world.GetPool<HealthChangeComponent>().Add(entityTarget);
-                    healthChangeComponent.Points = attackComponent.AttackDamage;
-                    attackComponent.RefreshDelay();
-                }
+                Attack(world, entity);
             }
+        }
+
+        private void Attack(EcsWorld ecsWorld, int entity)
+        {
+            var unitPool = ecsWorld.GetPool<UnitComponent>();
+            var detectPool = ecsWorld.GetPool<DetectComponent>();
+            var combatPool = ecsWorld.GetPool<CombatComponent>();
+            var attackPool = ecsWorld.GetPool<AttackComponent>();
+            var transformPool = ecsWorld.GetPool<UnityObject<Transform>>();
+            var healthChangePool = ecsWorld.GetPool<HealthChangeComponent>();
+            
+            ref var combatComponent = ref combatPool.Get(entity);
+            ref var unitComponent = ref unitPool.Get(entity);
+            ref var transformComponent = ref transformPool.Get(entity);
+
+            if (!combatComponent.EntityTarget.Unpack(ecsWorld, out var entityTarget))
+            {
+                ResetUnit(ecsWorld, entity);
+                return;
+            }
+                
+            ref var transformTargetComponent = ref transformPool.Get(entityTarget);
+
+            ref var detectComponent = ref detectPool.Get(entity);
+            ref var attackComponent = ref attackPool.Get(entity);
+
+            var distance =  Vector2.Distance(transformComponent.Value.position, transformTargetComponent.Value.position);
+            var canAttack = unitComponent.UnitState == UnitState.Attack &&
+                            detectComponent.ContainsEntity(ecsWorld, entityTarget) &&
+                            distance < attackComponent.AttackRange;
+
+            if (!canAttack)
+            {
+                ResetUnit(ecsWorld, entity);
+                return;
+            }
+
+            attackComponent.Delay -= Time.deltaTime;
+
+            if (attackComponent.Delay > 0)
+            {
+                return;
+            }
+                
+            ref var healthChangeComponent = ref healthChangePool.GetOrAdd(entityTarget);
+            healthChangeComponent.Points += attackComponent.AttackDamage;
+            attackComponent.RefreshDelay();
         }
 
         private void ResetUnit(EcsWorld ecsWorld, int entity)

@@ -1,6 +1,6 @@
 using DeadSurvive.Attack;
+using DeadSurvive.Common;
 using DeadSurvive.Condition.Interfaces;
-using DeadSurvive.Unit;
 using Leopotam.EcsLite;
 using UnityEngine;
 
@@ -22,21 +22,22 @@ namespace DeadSurvive.Condition
         
         public bool Check()
         {
-            if (!_entityUnit.Unpack(_ecsWorld, out var entityUnit) || !_entityTarget.Unpack(_ecsWorld, out var entityTarget))
+            if (!_entityUnit.Unpack(_ecsWorld, out var entityUnit) ||
+                !_entityTarget.Unpack(_ecsWorld, out var entityTarget))
             {
                 return false;
             }
             
-            var unitPool = _ecsWorld.GetPool<UnitComponent>();
+            var transformPool = _ecsWorld.GetPool<UnityObject<Transform>>();
             var attackPool = _ecsWorld.GetPool<AttackComponent>();
             
-            ref var unitComponent = ref unitPool.Get(entityUnit);
+            ref var entityTransform = ref transformPool.Get(entityUnit);
             ref var attackComponent = ref attackPool.Get(entityUnit);
-            ref var targetUnitComponent = ref unitPool.Get(entityTarget);
+            ref var targetTransform = ref transformPool.Get(entityTarget);
 
-            var distance = Vector2.Distance(unitComponent.UnitTransform.position, targetUnitComponent.UnitTransform.position);
+            var distance = Vector2.Distance(entityTransform.Value.position, targetTransform.Value.position);
 
-            return attackComponent.AttackRange < distance && 3f > distance;
+            return attackComponent.AttackRange < distance && attackComponent.AttackDetectRange > distance;
         }
     }
 }
