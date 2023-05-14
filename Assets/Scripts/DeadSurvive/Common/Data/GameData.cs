@@ -42,7 +42,13 @@ namespace DeadSurvive.Common.Data
         private AssetReference _buttonPrefab;
         
         [SerializeField, FoldoutGroup("UI")]
+        private AssetReference _pointsPrefab;
+        
+        [SerializeField, FoldoutGroup("UI")]
         private Transform _buttonSpawnPoint;
+        
+        [SerializeField, FoldoutGroup("UI")]
+        private Transform _pointsSpawnPoint;
 
         public void SetupPool()
         {
