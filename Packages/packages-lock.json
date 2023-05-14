@@ -5,21 +5,28 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "73d86259ce31ce7f4dfe1d028ea1c3edf96c23e4"
+      "hash": "f2773f585e762480c835ac718b82b87cb111e500"
     },
     "com.leopotam.ecslite": {
       "version": "https://github.com/Leopotam/ecslite.git",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "b2b201084462b0d0891373a0649b7cefbc4ca3ea"
+      "hash": "6b83a518237d3083f013fc0e0ab7580046c24aca"
+    },
+    "com.leopotam.ecslite.di": {
+      "version": "https://github.com/Leopotam/ecslite-di.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "0709e936b4ee68ad834276d5a75a3931ed7dcbbe"
     },
     "com.leopotam.ecslite.unityeditor": {
       "version": "https://github.com/Leopotam/ecslite-unityeditor.git",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "89988017dcad027df8bdf3c92fd9beafa1dc7f8a"
+      "hash": "65affd1090e235d8441582903dd95f7e86587849"
     },
     "com.unity.2d.animation": {
       "version": "7.0.9",
