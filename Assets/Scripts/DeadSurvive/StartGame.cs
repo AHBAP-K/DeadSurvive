@@ -11,6 +11,7 @@ using DeadSurvive.Spawner;
 using DeadSurvive.UnitButton;
 using DeadSurvive.ZoneDetect;
 using Leopotam.EcsLite;
+using Leopotam.EcsLite.Di;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -45,9 +46,7 @@ namespace DeadSurvive
             
             _ecsStartSystems.Add(new UnitSpawnButtonSpawner());
             _ecsStartSystems.Add(new UnitSpawnSystem());
-
-            _ecsStartSystems.Init();
-
+            
             _ecsUpdateSystems = new EcsSystems(_ecsWorld, _gameData);
             
             _ecsUpdateSystems.Add(new UnitSpawnSystem());
@@ -59,7 +58,11 @@ namespace DeadSurvive
             _ecsUpdateSystems.Add(new HealthSystem());
             _ecsUpdateSystems.Add(new SelfMovementSystem());
             _ecsUpdateSystems.Add(new DeathSystem());
+
+            _ecsStartSystems.Inject();
+            _ecsUpdateSystems.Inject();
             
+            _ecsStartSystems.Init();
             _ecsUpdateSystems.Init();
 
             _cancellationTokenSource = new CancellationTokenSource();
