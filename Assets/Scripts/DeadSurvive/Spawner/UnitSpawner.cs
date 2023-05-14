@@ -20,6 +20,8 @@ namespace DeadSurvive.Spawner
             var unitObject = await Pool.SpawnObject(unitData.Prefab, position);
             var unitEntity = EcsWorld.NewEntity();
 
+            unitObject.transform.parent = null;
+
             EcsWorld.AddUnitComponent(unitData.Type, unitObject.transform, unitEntity);
             EcsWorld.AddMoveComponent(unitData.MoveData, unitEntity);
             EcsWorld.AddAttackComponent(unitData.AttackData, unitEntity);

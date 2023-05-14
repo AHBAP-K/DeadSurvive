@@ -30,7 +30,6 @@ namespace DeadSurvive.Pool
             if (_pooledObjects.Count > 0)
             {
                 var gameObject = _pooledObjects.Dequeue();
-                //gameObject.SetActive(true);
                 return gameObject;
             }
 
@@ -54,8 +53,7 @@ namespace DeadSurvive.Pool
             {
                 return;
             }
-            
-            //gameObject.SetActive(false);
+
             _pooledObjects.Enqueue(gameObject);
         }
 
