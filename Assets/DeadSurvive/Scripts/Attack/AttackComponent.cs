@@ -12,12 +12,12 @@ namespace DeadSurvive.Attack
 
         private float _attackDelay;
 
-        public void Setup(AttackData attackData)
+        public void Setup(AttackConfig attackConfig)
         {
-            _attackDelay = attackData.AttackDelay;
-            AttackDamage = attackData.AttackDamage;
-            AttackRange = attackData.AttackRange;
-            AttackDetectRange = attackData.AttackDetectRange;
+            _attackDelay = attackConfig.AttackDelay;
+            AttackDamage = attackConfig.AttackDamage;
+            AttackRange = attackConfig.AttackRange;
+            AttackDetectRange = attackConfig.AttackDetectRange;
             
             RefreshDelay();
         }

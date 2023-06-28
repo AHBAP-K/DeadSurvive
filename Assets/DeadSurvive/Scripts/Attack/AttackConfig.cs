@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace DeadSurvive.Attack
 {
-    [CreateAssetMenu(fileName = "AttackData", menuName = "DeadSurvive/Attack", order = 0)]
-    public class AttackData : ScriptableObject
+    [CreateAssetMenu(fileName = nameof(AttackConfig), menuName = "DeadSurvive/Attack", order = 0)]
+    public class AttackConfig : ScriptableObject
     {
         public float AttackDamage => _attackDamage;
 
