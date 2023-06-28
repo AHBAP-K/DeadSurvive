@@ -26,11 +26,9 @@ namespace DeadSurvive.Pool
 
         public void ReturnObject(GameObject gameObject)
         {
-            var id = gameObject.GetInstanceID();
-
             foreach (var poolElement in _poolElements)
             {
-                if (poolElement.IsSpawnedObject(id))
+                if (poolElement.IsSpawnedObject(gameObject))
                 {
                     poolElement.ReturnObject(gameObject);
                     gameObject.transform.SetParent(_poolParent.transform);

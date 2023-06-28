@@ -4,6 +4,7 @@ using DeadSurvive.Moving.Data;
 using DeadSurvive.Unit.Enum;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Serialization;
 
 namespace DeadSurvive.Unit.Data
 {
@@ -13,7 +14,7 @@ namespace DeadSurvive.Unit.Data
 
         public MoveData MoveData => _moveData;
         
-        public AttackData AttackData => _attackData;
+        public AttackConfig AttackConfig => _attackConfig;
         
         public HealthData HealthData => _healthData;
         
@@ -28,8 +29,8 @@ namespace DeadSurvive.Unit.Data
         [SerializeField] 
         private HealthData _healthData;
         
-        [SerializeField] 
-        private AttackData _attackData;
+        [FormerlySerializedAs("_attackData")] [SerializeField] 
+        private AttackConfig _attackConfig;
 
         [SerializeField] 
         private UnitType _unitType;

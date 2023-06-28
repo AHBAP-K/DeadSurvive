@@ -24,7 +24,7 @@ namespace DeadSurvive.Spawner
 
             EcsWorld.AddUnitComponent(unitData.Type, unitObject.transform, unitEntity);
             EcsWorld.AddMoveComponent(unitData.MoveData, unitEntity);
-            EcsWorld.AddAttackComponent(unitData.AttackData, unitEntity);
+            EcsWorld.AddAttackComponent(unitData.AttackConfig, unitEntity);
             EcsWorld.AddHealthComponent(unitData.HealthData, unitEntity, unitObject.transform);
             EcsWorld.AddDetectComponent(unitObject.transform, unitEntity);
             

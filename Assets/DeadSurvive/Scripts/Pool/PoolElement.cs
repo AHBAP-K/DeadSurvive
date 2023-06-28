@@ -14,14 +14,14 @@ namespace DeadSurvive.Pool
         
         private readonly AssetReference _assetReference;
         
-        private List<int> _spawnedObjects;
+        private List<GameObject> _spawnedObjects;
         private Queue<GameObject> _pooledObjects;
         private AsyncOperationHandle<GameObject> _addressableOperation;
 
         public PoolElement(AssetReference assetReference)
         {
             _assetReference = assetReference;
-            _spawnedObjects = new List<int>(3);
+            _spawnedObjects = new List<GameObject>(3);
             _pooledObjects = new Queue<GameObject>(3);
         }
 
@@ -30,26 +30,35 @@ namespace DeadSurvive.Pool
             if (_pooledObjects.Count > 0)
             {
                 var gameObject = _pooledObjects.Dequeue();
+                
+                gameObject.transform.SetParent(parent, true);
+                gameObject.transform.position = position;         
+                
                 return gameObject;
             }
 
-            var spawnedObject = await _assetReference.InstantiateAsync(position, Quaternion.identity, parent);
+            if (!_addressableOperation.IsValid())
+            {
+                _addressableOperation = Addressables.LoadAssetAsync<GameObject>(_assetReference);
+                
+                await _addressableOperation;
+            }
 
-            _spawnedObjects.Add(spawnedObject.GetInstanceID());
+            var spawnedObject = Object.Instantiate(_addressableOperation.Result, position, Quaternion.identity, parent);
+            
+            _spawnedObjects.Add(spawnedObject);
 
             return spawnedObject;
         }
 
-        public bool IsSpawnedObject(int id)
+        public bool IsSpawnedObject(GameObject gameObject)
         {
-            return _spawnedObjects.Contains(id);
+            return _spawnedObjects.Contains(gameObject);
         }
 
         public void ReturnObject(GameObject gameObject)
         {
-            var id = gameObject.GetInstanceID();
-
-            if (!_spawnedObjects.Contains(id))
+            if (!_spawnedObjects.Contains(gameObject))
             {
                 return;
             }
@@ -59,13 +68,12 @@ namespace DeadSurvive.Pool
 
         public void Dispose()
         {
-            _spawnedObjects = null;
-
-            foreach (var pooledObject in _pooledObjects)
+            foreach (var gameObject in _spawnedObjects)
             {
-                Object.Destroy(pooledObject);
+                Object.Destroy(gameObject);
             }
 
+            _spawnedObjects = null;
             _pooledObjects = null;
             
             Addressables.Release(_addressableOperation);
