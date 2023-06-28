@@ -18,8 +18,6 @@ namespace DeadSurvive.Common.Data
         public UnitsDataHolder GetUnitSpawnData(UnitType unitType) => _unitSpawnData.FirstOrDefault(t => t.Type == unitType);
         
         public UnitData GetUnitData(UnitType unitType) => _unitData.FirstOrDefault(t => t.Type == unitType);
-
-        public UnitData[] UnitData => _unitData;
         
         public AssetReference ButtonPrefab => _buttonPrefab;
 
