@@ -3,28 +3,33 @@ using DeadSurvive.Condition;
 using DeadSurvive.UnitButton;
 using DeadSurvive.Moving;
 using DeadSurvive.Moving.Data;
-using DeadSurvive.Unit;
 using Leopotam.EcsLite;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace DeadSurvive.TapPosition
 {
-    public class TapOnTrigger : MonoBehaviour, IPointerClickHandler, IEcsSystemHolder
+    public class TapOnTrigger : MonoBehaviour, IPointerClickHandler, IEcsWorldReceiver
     {
-        public EcsSystems EcsSystems { get; set; }
-
         [SerializeField] private Camera _camera;
-        
+
+        private EcsWorld _ecsWorld;
+
+        private void Awake()
+        {
+            if (_camera == null)
+            {
+                _camera = Camera.main;
+            }
+        }
+
         public void OnPointerClick(PointerEventData eventData)
         {
-            var ecsWorld = EcsSystems.GetWorld();
+            var movePool = _ecsWorld.GetPool<MoveDestinationComponent>(); 
+            var buttonsPool = _ecsWorld.GetPool<ButtonComponent>();
+            var transformPool = _ecsWorld.GetPool<UnityObject<Transform>>();
             
-            var movePool = ecsWorld.GetPool<MoveDestinationComponent>(); 
-            var buttonsPool = ecsWorld.GetPool<ButtonComponent>();
-            var transformPool = ecsWorld.GetPool<UnityObject<Transform>>();
-            
-            var filterMove = ecsWorld.Filter<ButtonComponent>().End();
+            var filterMove = _ecsWorld.Filter<ButtonComponent>().End();
             
             foreach (var entityMove in filterMove)
             {
@@ -44,6 +49,11 @@ namespace DeadSurvive.TapPosition
                 
                 moveComponent.Configure(vectorPosition, moveCondition);
             }
+        }
+
+        public void SetEcsWorld(EcsWorld world)
+        {
+            _ecsWorld = world;
         }
     }
 }

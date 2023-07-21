@@ -21,8 +21,6 @@ namespace DeadSurvive.Moving
 
         private void MoveObject(EcsWorld world, int unitEntity)
         {
-            Debug.Log($"[{nameof(MovementSystem)}] Entity: {unitEntity}, {nameof(MoveObject)}");
-            
             ref var moveComponent = ref world.GetPool<MoveComponent>().Get(unitEntity);
             ref var transformComponent = ref world.GetPool<UnityObject<Transform>>().Get(unitEntity);
             ref var moveDestinationComponent = ref world.GetPool<MoveDestinationComponent>().Get(unitEntity);
@@ -45,8 +43,6 @@ namespace DeadSurvive.Moving
         
         private void MovementComplete(EcsWorld ecsWorld, int entity)
         {
-            Debug.Log($"[{nameof(MovementSystem)}] Entity: {entity}, {nameof(MovementComplete)}");
-            
             var moveDestinationPool = ecsWorld.GetPool<MoveDestinationComponent>();
 
             ref var moveDestinationComponent = ref moveDestinationPool.Get(entity);

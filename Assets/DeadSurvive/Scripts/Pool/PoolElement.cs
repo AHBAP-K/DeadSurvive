@@ -17,6 +17,7 @@ namespace DeadSurvive.Pool
         private List<GameObject> _spawnedObjects;
         private Queue<GameObject> _pooledObjects;
         private AsyncOperationHandle<GameObject> _addressableOperation;
+        private UniTaskCompletionSource _loadSource;
 
         public PoolElement(AssetReference assetReference)
         {
@@ -37,11 +38,13 @@ namespace DeadSurvive.Pool
                 return gameObject;
             }
 
-            if (!_addressableOperation.IsValid())
+            if (_loadSource != null)
             {
-                _addressableOperation = Addressables.LoadAssetAsync<GameObject>(_assetReference);
-                
-                await _addressableOperation;
+                await _loadSource.Task;
+            }
+            else if (!_addressableOperation.IsValid())
+            {
+                await LoadAddressable();
             }
 
             var spawnedObject = Object.Instantiate(_addressableOperation.Result, position, Quaternion.identity, parent);
@@ -49,6 +52,17 @@ namespace DeadSurvive.Pool
             _spawnedObjects.Add(spawnedObject);
 
             return spawnedObject;
+        }
+
+        private async UniTask LoadAddressable()
+        {
+            _addressableOperation = Addressables.LoadAssetAsync<GameObject>(_assetReference);
+            _loadSource = new UniTaskCompletionSource();
+                
+            await _addressableOperation;
+                
+            _loadSource.TrySetResult();
+            _loadSource = null;
         }
 
         public bool IsSpawnedObject(GameObject gameObject)

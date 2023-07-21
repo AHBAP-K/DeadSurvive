@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DeadSurvive.Level;
 using DeadSurvive.Spawner;
 using DeadSurvive.Unit.Data;
 using DeadSurvive.Unit.Enum;
@@ -27,6 +28,8 @@ namespace DeadSurvive.Common.Data
 
         public EnemySpawnData EnemySpawnData => _enemySpawnData;
 
+        public LandConfig LandConfig => _landConfig;
+
         [SerializeField, FoldoutGroup("Units")] 
         private List<UnitsDataHolder> _unitSpawnData;
 
@@ -41,6 +44,9 @@ namespace DeadSurvive.Common.Data
         
         [SerializeField, FoldoutGroup("UI")]
         private Transform _buttonSpawnPoint;
+
+        [SerializeField, FoldoutGroup("Level")]
+        private LandConfig _landConfig;
 
         public void SetupPool()
         {

@@ -36,6 +36,24 @@ namespace DeadSurvive.Pool
             }
         }
 
+        public void DisposeObjects(AssetReference assetReference)
+        {
+            for (var i = 0; i < _poolElements.Count; i++)
+            {
+                var poolElement = _poolElements[i];
+
+                if (!poolElement.AssetId.Equals(assetReference.AssetGUID))
+                {
+                    continue;
+                }
+                
+                poolElement.Dispose();
+                _poolElements.Remove(poolElement);
+                
+                break;
+            }
+        }
+
         private PoolElement GetPoolElement(AssetReference assetReference)
         {
             foreach (var poolElement in _poolElements)

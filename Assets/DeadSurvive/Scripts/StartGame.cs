@@ -6,6 +6,7 @@ using DeadSurvive.Common;
 using DeadSurvive.Common.Data;
 using DeadSurvive.Death;
 using DeadSurvive.Health;
+using DeadSurvive.Level;
 using DeadSurvive.Moving;
 using DeadSurvive.Spawner;
 using DeadSurvive.UnitButton;
@@ -23,7 +24,7 @@ namespace DeadSurvive
         private GameData _gameData;
 
         [SerializeField] 
-        private List<IEcsSystemHolder> _ecsSystemHolders;
+        private List<IEcsWorldReceiver> _ecsSystemHolders;
 
         private EcsWorld _ecsWorld;
         private EcsSystems _ecsStartSystems;
@@ -41,7 +42,7 @@ namespace DeadSurvive
 
             for (int i = 0; i < _ecsSystemHolders.Count; i++)
             {
-                _ecsSystemHolders[i].EcsSystems = _ecsStartSystems;
+                _ecsSystemHolders[i].SetEcsWorld(_ecsWorld);
             }
             
             _ecsStartSystems.Add(new UnitSpawnButtonSpawner());
@@ -58,6 +59,7 @@ namespace DeadSurvive
             _ecsUpdateSystems.Add(new HealthSystem());
             _ecsUpdateSystems.Add(new SelfMovementSystem());
             _ecsUpdateSystems.Add(new DeathSystem());
+            _ecsUpdateSystems.Add(new LandSystem());
 
             _ecsStartSystems.Inject();
             _ecsUpdateSystems.Inject();
