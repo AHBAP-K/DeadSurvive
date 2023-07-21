@@ -87,7 +87,7 @@ SpriteRenderer:
   m_SpriteSortPoint: 0
 --- !u!95 &299861738719218535
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -104,7 +104,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1001 &1211173956614155104
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -122,11 +122,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 446652, guid: 52cc56ade5622469e8ab7c5315d224b8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.4623213
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 446652, guid: 52cc56ade5622469e8ab7c5315d224b8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.48855
+      value: 2.69
       objectReference: {fileID: 0}
     - target: {fileID: 446652, guid: 52cc56ade5622469e8ab7c5315d224b8, type: 3}
       propertyPath: m_LocalPosition.z

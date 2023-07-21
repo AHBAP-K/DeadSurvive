@@ -29,6 +29,10 @@ MonoBehaviour:
     m_Address: PlayerButton
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 874c903bb2fbc47c7a2eac15c0f7062b
+    m_Address: Assets/DeadSurvive/Prefabs/Level/Level_1.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: f34e7885cc705490c817b830c9dad730, type: 2}
   m_SchemaSet:
