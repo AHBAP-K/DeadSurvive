@@ -4,36 +4,37 @@ using DeadSurvive.Unit;
 using DeadSurvive.Unit.Enum;
 using DeadSurvive.ZoneDetect;
 using Leopotam.EcsLite;
+using Leopotam.EcsLite.Di;
 using UnityEngine;
 
 namespace DeadSurvive.Attack
 {
     public class AttackSystem : IEcsRunSystem
     {
+        private readonly EcsWorldInject _world = default;
+
+        private readonly EcsPoolInject<UnitComponent> _unitPool = default;
+        private readonly EcsPoolInject<DetectComponent> _detectPool = default;
+        private readonly EcsPoolInject<CombatComponent> _combatPool = default;
+        private readonly EcsPoolInject<AttackComponent> _attackPool = default;
+        private readonly EcsPoolInject<UnityObject<Transform>> _transformPool = default;
+        private readonly EcsPoolInject<HealthChangeComponent> _healthChangePool = default;
+
+        private readonly EcsFilterInject<Inc<CombatComponent>> _filterCombat;
+        
         public void Run(IEcsSystems systems)
         {
-            var world = systems.GetWorld();
-
-            var filter = world.Filter<CombatComponent>().End();
-
-            foreach (var entity in filter)
+            foreach (var entity in _filterCombat.Value)
             {
-                Attack(world, entity);
+                Attack(_world.Value, entity);
             }
         }
 
         private void Attack(EcsWorld ecsWorld, int entity)
         {
-            var unitPool = ecsWorld.GetPool<UnitComponent>();
-            var detectPool = ecsWorld.GetPool<DetectComponent>();
-            var combatPool = ecsWorld.GetPool<CombatComponent>();
-            var attackPool = ecsWorld.GetPool<AttackComponent>();
-            var transformPool = ecsWorld.GetPool<UnityObject<Transform>>();
-            var healthChangePool = ecsWorld.GetPool<HealthChangeComponent>();
-            
-            ref var combatComponent = ref combatPool.Get(entity);
-            ref var unitComponent = ref unitPool.Get(entity);
-            ref var transformComponent = ref transformPool.Get(entity);
+            ref var combatComponent = ref _combatPool.Value.Get(entity);
+            ref var unitComponent = ref _unitPool.Value.Get(entity);
+            ref var transformComponent = ref _transformPool.Value.Get(entity);
 
             if (!combatComponent.EntityTarget.Unpack(ecsWorld, out var entityTarget))
             {
@@ -41,10 +42,10 @@ namespace DeadSurvive.Attack
                 return;
             }
                 
-            ref var transformTargetComponent = ref transformPool.Get(entityTarget);
+            ref var transformTargetComponent = ref _transformPool.Value.Get(entityTarget);
 
-            ref var detectComponent = ref detectPool.Get(entity);
-            ref var attackComponent = ref attackPool.Get(entity);
+            ref var detectComponent = ref _detectPool.Value.Get(entity);
+            ref var attackComponent = ref _attackPool.Value.Get(entity);
 
             var distance =  Vector2.Distance(transformComponent.Value.position, transformTargetComponent.Value.position);
             var canAttack = unitComponent.UnitState == UnitState.Attack &&
@@ -64,14 +65,13 @@ namespace DeadSurvive.Attack
                 return;
             }
                 
-            ref var healthChangeComponent = ref healthChangePool.GetOrAdd(entityTarget);
+            ref var healthChangeComponent = ref _healthChangePool.Value.GetOrAdd(entityTarget);
             healthChangeComponent.Points += attackComponent.AttackDamage;
             attackComponent.RefreshDelay();
         }
 
         private void ResetUnit(EcsWorld ecsWorld, int entity)
         {
-            var combatPool = ecsWorld.GetPool<CombatComponent>();
             ref var unitComponent = ref ecsWorld.GetPool<UnitComponent>().Get(entity);
 
             if (unitComponent.UnitState == UnitState.Attack)
@@ -79,8 +79,7 @@ namespace DeadSurvive.Attack
                 unitComponent.UnitState = UnitState.Stay;
             }
             
-            combatPool.Del(entity);
+            _combatPool.Value.Del(entity);
         }
-        
     }
 }
