@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DeadSurvive.Common.Data;
+using DeadSurvive.Spawner;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
@@ -11,10 +12,16 @@ namespace DeadSurvive.Level
     public class LandSystem : IEcsInitSystem, IEcsRunSystem
     {
         private readonly EcsWorldInject _world = default;
-        private readonly EcsSharedInject<GameData> _gameData = default;
-        private readonly EcsFilterInject<Inc<TransitionComponent>> _transitionFilter = default;
-        private readonly EcsPoolInject<TransitionComponent> _transitionPool = default;
         
+        private readonly EcsSharedInject<GameData> _gameData = default;
+        
+        private readonly EcsFilterInject<Inc<TransitionComponent>> _transitionFilter = default;
+        
+        private readonly EcsPoolInject<TransitionComponent> _transitionPool = default;
+        private readonly EcsPoolInject<LandComponent> _landPool = default;
+        private readonly EcsPoolInject<EnemySpawnComponent> _enemySpawnPool = default;
+
+        private int _currentLandEntity;
         private LandHolder _currentLand;
         private LandHolder[,] _landHolders;
         private LandConfig _landConfig;
@@ -94,8 +101,10 @@ namespace DeadSurvive.Level
                 var landObject = await _pool.SpawnObject(landHolder.LevelReference);
                 var landView = landObject.GetComponent<LandView>();
                 
-                landView.SetEcsWorld(_world.Value);
                 landView.ConfigureTransitions(landHolder.Transitions);
+                landView.SetEcsWorld(_world.Value);
+                
+                CreateLandComponent(landView);
             }
         }
 
@@ -116,8 +125,8 @@ namespace DeadSurvive.Level
         private async UniTask LoadNextLevel(LandHolder landHolder)
         {
             Debug.Log($"[{nameof(LandSystem)} LoadNextLevel {landHolder.LevelPoint.ToString()}]");
-            
-            _pool.DisposeObjects(_currentLand.LevelReference);
+
+            UnloadCurrentLevel();
             
             _currentLand = landHolder;
             
@@ -126,6 +135,32 @@ namespace DeadSurvive.Level
             
             landView.ConfigureTransitions(landHolder.Transitions);
             landView.SetEcsWorld(_world.Value);
+
+            CreateLandComponent(landView);
+        }
+        
+        private void UnloadCurrentLevel()
+        {
+            if (_currentLandEntity <= 0)
+            {
+                return;
+            }
+            
+            _world.Value.DelEntity(_currentLandEntity);
+            _pool.DisposeObjects(_currentLand.LevelReference);
+        }
+
+        private void CreateLandComponent(LandView landView)
+        {           
+            _currentLandEntity = _world.Value.NewEntity();
+
+            ref var landComponent = ref _landPool.Value.Add(_currentLandEntity);
+            ref var enemySpawnComponent = ref _enemySpawnPool.Value.Add(_currentLandEntity);
+            
+            landComponent.Setup(landView);
+            
+            enemySpawnComponent.SetupEnemyData(landView.EnemySpawnData);
+            enemySpawnComponent.SetupPositions(landView.Points);
         }
     }
 }
